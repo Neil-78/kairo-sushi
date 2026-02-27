@@ -3,42 +3,47 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Kairo Sushi | Recepción de Pedidos</title>
+    <title>Panel Escolar | Kairo Sushi</title>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;800&display=swap" rel="stylesheet">
     <style>
         body { background-color: #111; color: white; font-family: 'Montserrat', sans-serif; padding: 20px; }
         h1 { color: #C6000F; text-align: center; margin-bottom: 20px;}
-        .pedido-card { background-color: #222; border-left: 5px solid #C6000F; padding: 15px; margin-bottom: 15px; border-radius: 8px; }
+        
+        .pedido-card { background-color: #222; border-left: 5px solid #C6000F; padding: 15px; margin-bottom: 15px; border-radius: 8px; position: relative;}
+        .pedido-card.pagado { border-left: 5px solid #25D366; opacity: 0.8; } /* Cambia a verde si ya pagaron */
+        
         .btn-iniciar { display: block; width: 100%; background-color: #25D366; color: white; border: none; padding: 15px; font-size: 18px; font-weight: bold; border-radius: 10px; cursor: pointer; margin-bottom: 20px; }
-        .platillo { margin-left: 15px; color: #ccc; }
-        .total { font-weight: bold; color: #25D366; margin-top: 10px; }
+        .btn-pagado { background-color: #C6000F; color: white; border: none; padding: 10px; border-radius: 8px; font-weight: bold; cursor: pointer; width: 100%; margin-top: 15px;}
+        
+        .datos-escuela { color: #aaa; font-size: 14px; margin-bottom: 10px; }
+        .etiqueta-pagado { color: #25D366; font-weight: 800; font-size: 18px; text-align: center; margin-top: 15px; display: block; }
+        .platillo { margin-left: 15px; color: #fff; }
+        .total { font-weight: bold; color: #25D366; margin-top: 10px; font-size: 18px; }
     </style>
 </head>
 <body>
 
     <h1>Recepción Kairo Sushi 🍣</h1>
-    
     <button id="btn-turno" class="btn-iniciar">🟢 Iniciar Turno (Activar Sonido)</button>
 
     <div id="contenedor-pedidos">
-        <p style="text-align: center; color: #888;">Esperando nuevos pedidos...</p>
+        <p style="text-align: center; color: #888;">Esperando ventas en la prepa...</p>
     </div>
 
     <audio id="sonido-alerta" src="campana.mp3" preload="auto"></audio>
 
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-app.js";
-        import { getFirestore, collection, onSnapshot, query, orderBy } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-firestore.js";
+        // Importamos doc y updateDoc para poder editar el estado a "Pagado"
+        import { getFirestore, collection, onSnapshot, query, orderBy, doc, updateDoc } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-firestore.js";
 
-        // Tu configuración real insertada aquí:
         const firebaseConfig = {
             apiKey: "AIzaSyBeWazB4dcacQhcQ34C3AFC8LVOOSz1kq8",
             authDomain: "kairo-sushi.firebaseapp.com",
             projectId: "kairo-sushi",
             storageBucket: "kairo-sushi.firebasestorage.app",
             messagingSenderId: "644038650541",
-            appId: "1:644038650541:web:cec55d55fee7bd9429f424",
-            measurementId: "G-MQ17QF3C26"
+            appId: "1:644038650541:web:cec55d55fee7bd9429f424"
         };
 
         const app = initializeApp(firebaseConfig);
@@ -54,6 +59,19 @@
             document.getElementById('sonido-alerta').play().catch(e => console.log(e));
         });
 
+        // Función para cambiar a Pagado en Firebase
+        window.marcarPagado = async function(idPedido) {
+            try {
+                const pedidoRef = doc(db, "pedidos_kairo", idPedido);
+                await updateDoc(pedidoRef, {
+                    estado: "Pagado"
+                });
+            } catch (error) {
+                console.error("Error al actualizar:", error);
+                alert("Hubo un error al marcar como pagado.");
+            }
+        }
+
         const q = query(collection(db, "pedidos_kairo"), orderBy("fecha", "desc"));
         
         onSnapshot(q, (snapshot) => {
@@ -65,26 +83,46 @@
                     document.getElementById('sonido-alerta').play();
                 }
             });
-
             primerCarga = false;
 
-            snapshot.forEach((doc) => {
-                const data = doc.data();
-                let htmlPlatillos = '';
+            snapshot.forEach((docu) => {
+                const data = docu.data();
+                const id = docu.id; // Necesitamos el ID para el botón de "pagar"
                 
+                let htmlPlatillos = '';
                 if (data.platillos) {
                     data.platillos.forEach(p => {
                         htmlPlatillos += `<div class="platillo">- ${p.cantidad}x ${p.nombre}</div>`;
                     });
                 }
 
+                // Definir qué título y botón mostrar dependiendo si ya pagaron
+                let titulo = '';
+                let botonOEstado = '';
+                let claseExtra = '';
+
+                if(data.estado === "Pagado") {
+                    titulo = `<h3>${data.cliente}</h3>`;
+                    botonOEstado = `<span class="etiqueta-pagado">✅ YA ESTÁ PAGADO</span>`;
+                    claseExtra = 'pagado'; // Para poner el borde verde
+                } else {
+                    // Si está "Pendiente"
+                    titulo = `<h3 style="color: var(--rojo-kairo);">${data.cliente} ya está pagando...</h3>`;
+                    botonOEstado = `<button class="btn-pagado" onclick="marcarPagado('${id}')">Marcar como PAGADO 💰</button>`;
+                }
+
                 contenedor.innerHTML += `
-                    <div class="pedido-card">
-                        <h3>Cliente: ${data.cliente}</h3>
-                        <p>📍 ${data.contacto}</p>
+                    <div class="pedido-card ${claseExtra}">
+                        ${titulo}
+                        <div class="datos-escuela">
+                            📱 Tel: ${data.telefono} <br>
+                            🎒 Grupo: ${data.grupo} (${data.turno}) <br>
+                            🆔 Matrícula: ${data.matricula}
+                        </div>
                         <hr style="border-color: #444; margin: 10px 0;">
                         ${htmlPlatillos}
                         <div class="total">Total a cobrar: $${data.totalPagar}</div>
+                        ${botonOEstado}
                     </div>
                 `;
             });
