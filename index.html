@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Kairo Sushi | Menú Digital</title>
+    <title>Kairo Sushi | Menú Digital School</title>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;800;900&display=swap" rel="stylesheet">
     <style>
         :root {
@@ -18,31 +18,28 @@
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Montserrat', sans-serif; -webkit-tap-highlight-color: transparent; }
         body { background-color: var(--negro-absoluto); color: var(--blanco); overflow-x: hidden; }
 
-        /* --- PANTALLA DE CARGA --- */
+        /* --- PANTALLA DE CARGA NEGRA --- */
         #pantalla-carga {
             position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
-            background-color: var(--negro-absoluto); z-index: 9998;
+            background-color: var(--negro-absoluto); z-index: 9998; /* Un nivel abajo del logo */
             transition: opacity 0.8s ease-in-out;
         }
 
-        /* --- LOGO ANIMADO E INDEPENDIENTE --- */
+        /* --- LOGO ANIMADO PROFESIONAL (Basado en transforms) --- */
         #logo-animado {
             position: fixed; 
-            top: 50%; left: 50%;
-            transform: translate(-50%, -50%); 
-            width: 350px; 
-            max-width: 90vw; 
+            left: 20px; /* Posición final horizontal estetica */
+            top: 37.5px; /* Posición final vertical (centro exacto del header de 75px) */
+            width: 80px; /* Tamaño final grande y estetico en esquina */
             mix-blend-mode: lighten; filter: contrast(1.2);
-            transition: all 1s cubic-bezier(0.25, 1, 0.5, 1);
-            z-index: 9999; 
-        }
-
-        /* ¡AQUÍ ESTÁ EL CAMBIO ESTÉTICO! */
-        #logo-animado.esquina {
-            width: 80px; /* Mucho más grande y visible en la esquina */
-            top: 37.5px; /* La mitad exacta de los 75px que mide el header */
-            left: 20px; /* Un poco más separado del borde izquierdo */
-            transform: translate(0, -50%); /* Ancla el centro del logo al centro del header */
+            z-index: 9999; /* Siempre por encima de todo */
+            
+            /* Performant transition, animando ÚNICAMENTE transform para máxima fluidez */
+            /* Usamos una curva de bezier Quart Ease-In-Out para elegancia natural */
+            transition: transform 1.3s cubic-bezier(0.77, 0, 0.175, 1);
+            
+            /* Estado por defecto (reposo): centrado verticalmente en el header */
+            transform: translate(0, -50%) scale(1); 
         }
 
         #contenido-principal { opacity: 0; transition: opacity 1s ease-in; padding-top: 80px; }
@@ -74,7 +71,7 @@
         .btn-pedir { background-color: var(--rojo-kairo); color: var(--blanco); border: none; padding: 6px 15px; border-radius: 15px; font-size: 12px; font-weight: 800; cursor: pointer; transition: 0.3s;}
         .btn-pedir:active { transform: scale(0.9); }
 
-        /* --- CARRITO Y FORMULARIO --- */
+        /* --- CARRITO Y FORMULARIO ESCOLAR --- */
         #carrito-modal { position: fixed; top: 0; right: -100%; width: 100%; max-width: 400px; height: 100vh; background-color: var(--gris-fondo); z-index: 10000; transition: right 0.4s ease; display: flex; flex-direction: column; }
         #carrito-modal.abierto { right: 0; }
         .carrito-header { padding: 20px; border-bottom: 1px solid #333; display: flex; justify-content: space-between; align-items: center; }
@@ -192,22 +189,45 @@
         const app = initializeApp(firebaseConfig);
         const db = getFirestore(app);
 
-        // LÓGICA DE LA ANIMACIÓN INICIAL
+        // --- LÓGICA DE LA ANIMACIÓN INICIAL PROFESIONAL ---
         window.addEventListener('load', () => {
-            setTimeout(() => {
-                const logo = document.getElementById('logo-animado');
-                const pantalla = document.getElementById('pantalla-carga');
-                const main = document.getElementById('contenido-principal');
+            const logo = document.getElementById('logo-animado');
+            const pantalla = document.getElementById('pantalla-carga');
+            const main = document.getElementById('contenido-principal');
 
-                logo.classList.add('esquina');
+            // --- CÁLCULOS DE INVERSIÓN DE MOVIMIENTO ---
+            // 1. Centros actuales de pantalla y destino
+            const cX = window.innerWidth / 2;
+            const cY = window.innerHeight / 2;
+            const finalW = 80;
+            const finalCenterX = 20 + finalW / 2; // Left final + mitad ancho
+            const finalCenterY = 37.5; // Top final (centro del header)
+
+            // 2. Escala inicial deseada (de 350px a 80px)
+            const initialScale = 350 / finalW;
+
+            // 3. Traslación necesaria desde ESQUINA -> CENTRO de pantalla
+            const transX = cX - finalCenterX;
+            const transY = cY - finalCenterY;
+
+            // --- APLICAR ESTADO INICIAL (Centrado y Grande, sin transición aún) ---
+            logo.style.transition = 'none'; // Asegurar que inicie quieto
+            // Mover al centro (compensando el translate CSS previo) y agrandar
+            logo.style.transform = `translate(${transX}px, ${transY}px) translate(0, -50%) scale(${initialScale})`;
+
+            // --- INICIAR ANIMACIÓN (Después de un respiro centrado) ---
+            setTimeout(() => {
+                // Restaurar la transición CSS Quart elegante
+                logo.style.transition = 'transform 1.3s cubic-bezier(0.77, 0, 0.175, 1)';
+                // Quitar transformaciones manuales, el navegador anima suavemente a translate(0,-50%) scale(1)
+                logo.style.transform = '';
+
+                // Desvanecer pantalla de carga y mostrar menú
                 pantalla.style.opacity = "0";
                 main.classList.add('visible');
+                setTimeout(() => { pantalla.style.display = "none"; }, 800);
 
-                setTimeout(() => {
-                    pantalla.style.display = "none";
-                }, 800);
-
-            }, 1500); 
+            }, 1000); // 1 segundo de respiro centrado gigante
         });
 
         // LÓGICA DEL CARRITO
@@ -252,7 +272,7 @@
         window.abrirCarrito = function() { document.getElementById('carrito-modal').classList.add('abierto'); }
         window.cerrarCarrito = function() { document.getElementById('carrito-modal').classList.remove('abierto'); }
 
-        // ENVIAR A LA BASE DE DATOS
+        // ENVIAR A LA BASE DE DATOS ESCOLAR
         window.enviarPedidoBD = async function() {
             if (carrito.length === 0) return;
             
