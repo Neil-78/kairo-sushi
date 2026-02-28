@@ -30,20 +30,19 @@
             position: fixed; 
             top: 50%; left: 50%;
             transform: translate(-50%, -50%); 
-            /* ¡AQUÍ ESTÁ EL CAMBIO! Mucho más grande al inicio */
             width: 350px; 
-            max-width: 90vw; /* Evita que se salga de la pantalla en celulares muy delgados */
+            max-width: 90vw; 
             mix-blend-mode: lighten; filter: contrast(1.2);
             transition: all 1s cubic-bezier(0.25, 1, 0.5, 1);
             z-index: 9999; 
         }
 
-        /* Cuando viaja a la esquina */
+        /* ¡AQUÍ ESTÁ EL CAMBIO ESTÉTICO! */
         #logo-animado.esquina {
-            width: 55px; /* Se achica a este tamaño */
-            top: 10px; 
-            left: 15px;
-            transform: translate(0, 0); 
+            width: 80px; /* Mucho más grande y visible en la esquina */
+            top: 37.5px; /* La mitad exacta de los 75px que mide el header */
+            left: 20px; /* Un poco más separado del borde izquierdo */
+            transform: translate(0, -50%); /* Ancla el centro del logo al centro del header */
         }
 
         #contenido-principal { opacity: 0; transition: opacity 1s ease-in; padding-top: 80px; }
