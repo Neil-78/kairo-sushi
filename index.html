@@ -18,31 +18,41 @@
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Montserrat', sans-serif; -webkit-tap-highlight-color: transparent; }
         body { background-color: var(--negro-absoluto); color: var(--blanco); overflow-x: hidden; }
 
-        /* --- ANIMACIÓN DE ENTRADA --- */
+        /* --- PANTALLA DE CARGA --- */
         #pantalla-carga {
             position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
-            background-color: var(--negro-absoluto); z-index: 9999;
-            display: flex; justify-content: center; align-items: center;
-            transition: background-color 0.8s ease-in-out;
+            background-color: var(--negro-absoluto); z-index: 9998;
+            transition: opacity 0.8s ease-in-out;
         }
+
+        /* --- LOGO ANIMADO E INDEPENDIENTE --- */
         #logo-animado {
-            width: 220px;
+            position: fixed; 
+            top: 50%; left: 50%;
+            transform: translate(-50%, -50%); 
+            /* ¡AQUÍ ESTÁ EL CAMBIO! Mucho más grande al inicio */
+            width: 350px; 
+            max-width: 90vw; /* Evita que se salga de la pantalla en celulares muy delgados */
             mix-blend-mode: lighten; filter: contrast(1.2);
-            transition: all 1.2s cubic-bezier(0.25, 1, 0.5, 1);
-            position: absolute;
+            transition: all 1s cubic-bezier(0.25, 1, 0.5, 1);
+            z-index: 9999; 
         }
-        /* Clase que mueve el logo a la esquina superior izquierda */
+
+        /* Cuando viaja a la esquina */
         #logo-animado.esquina {
-            width: 55px;
-            top: 10px;
+            width: 55px; /* Se achica a este tamaño */
+            top: 10px; 
             left: 15px;
+            transform: translate(0, 0); 
         }
+
         #contenido-principal { opacity: 0; transition: opacity 1s ease-in; padding-top: 80px; }
         #contenido-principal.visible { opacity: 1; }
 
         /* --- HEADER --- */
         header { position: fixed; top: 0; left: 0; width: 100%; height: 75px; background-color: var(--negro-absoluto); z-index: 9997; display: flex; justify-content: flex-end; align-items: center; padding: 0 15px; border-bottom: 1px solid #222; }
-        .carrito-btn { background-color: var(--rojo-kairo); color: var(--blanco); border: none; padding: 10px 15px; border-radius: 20px; font-weight: 600; font-size: 13px; cursor: pointer; box-shadow: 0 4px 10px rgba(198, 0, 15, 0.4); }
+        .carrito-btn { background-color: var(--rojo-kairo); color: var(--blanco); border: none; padding: 10px 15px; border-radius: 20px; font-weight: 600; font-size: 13px; cursor: pointer; box-shadow: 0 4px 10px rgba(198, 0, 15, 0.4); transition: transform 0.2s; }
+        .carrito-btn:active { transform: scale(0.95); }
 
         /* --- SECCIONES --- */
         .hero-video-section { padding: 20px 15px; text-align: center; }
@@ -62,7 +72,8 @@
         .info-platillo p { font-size: 11px; color: #555; margin-bottom: 10px; }
         .precio-pedir { display: flex; justify-content: space-between; align-items: center; margin-top: auto; }
         .precio { font-size: 16px; font-weight: 900; color: var(--texto-oscuro); }
-        .btn-pedir { background-color: var(--rojo-kairo); color: var(--blanco); border: none; padding: 6px 15px; border-radius: 15px; font-size: 12px; font-weight: 800; cursor: pointer; }
+        .btn-pedir { background-color: var(--rojo-kairo); color: var(--blanco); border: none; padding: 6px 15px; border-radius: 15px; font-size: 12px; font-weight: 800; cursor: pointer; transition: 0.3s;}
+        .btn-pedir:active { transform: scale(0.9); }
 
         /* --- CARRITO Y FORMULARIO --- */
         #carrito-modal { position: fixed; top: 0; right: -100%; width: 100%; max-width: 400px; height: 100vh; background-color: var(--gris-fondo); z-index: 10000; transition: right 0.4s ease; display: flex; flex-direction: column; }
@@ -79,13 +90,14 @@
         .carrito-footer { padding: 20px; background-color: #000; }
         .total-container { display: flex; justify-content: space-between; font-size: 18px; font-weight: 800; margin-bottom: 15px; }
         .btn-bd { width: 100%; background-color: var(--rojo-kairo); color: white; border: none; padding: 15px; border-radius: 25px; font-size: 16px; font-weight: bold; cursor: pointer; }
+        .btn-bd:disabled { background-color: #555; }
     </style>
 </head>
 <body>
 
-    <div id="pantalla-carga">
-        <img src="logo.jpg" id="logo-animado" alt="Kairo Sushi Logo">
-    </div>
+    <img src="logo.jpg" id="logo-animado" alt="Kairo Sushi Logo">
+
+    <div id="pantalla-carga"></div>
 
     <div id="contenido-principal">
         <header>
@@ -102,7 +114,7 @@
                 <h2>Pedir Ahora</h2>
                 <div class="grid-menu">
                     <div class="card-platillo">
-                        <div class="card-media"><video src="video2.mp4" autoplay loop muted playsinline></video></div>
+                        <div class="card-media"><video src="video2.mp4" autoplay loop muted playsinline style="object-position: center;"></video></div>
                         <div class="info-platillo">
                             <div><h3>El Gran Festín</h3><p>Una selección premium perfecta para compartir.</p></div>
                             <div class="precio-pedir"><span class="precio">$950</span><button class="btn-pedir" onclick="agregarAlCarrito('El Gran Festín', 950)">PEDIR</button></div>
@@ -169,7 +181,6 @@
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-app.js";
         import { getFirestore, collection, addDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-firestore.js";
 
-        // CONFIGURACIÓN DE FIREBASE
         const firebaseConfig = {
             apiKey: "AIzaSyBeWazB4dcacQhcQ34C3AFC8LVOOSz1kq8",
             authDomain: "kairo-sushi.firebaseapp.com",
@@ -189,18 +200,15 @@
                 const pantalla = document.getElementById('pantalla-carga');
                 const main = document.getElementById('contenido-principal');
 
-                // Achica el logo y lo manda a la esquina
                 logo.classList.add('esquina');
-                // Aparece el menú
+                pantalla.style.opacity = "0";
                 main.classList.add('visible');
 
-                // Después de que se mueve el logo, ocultamos el fondo negro temporal
                 setTimeout(() => {
-                    pantalla.style.backgroundColor = "transparent";
-                    setTimeout(() => { pantalla.style.display = "none"; }, 500);
+                    pantalla.style.display = "none";
                 }, 800);
 
-            }, 1500); // El logo se queda en el centro 1.5 segundos
+            }, 1500); 
         });
 
         // LÓGICA DEL CARRITO
@@ -249,7 +257,6 @@
         window.enviarPedidoBD = async function() {
             if (carrito.length === 0) return;
             
-            // Recoger todos los datos escolares
             const nombre = document.getElementById('cliente-nombre').value;
             const telefono = document.getElementById('cliente-telefono').value;
             const grupo = document.getElementById('cliente-grupo').value;
@@ -274,13 +281,12 @@
                     matricula: matricula,
                     platillos: carrito,
                     totalPagar: total,
-                    estado: "Pendiente", // Inicia como pendiente
+                    estado: "Pendiente", 
                     fecha: serverTimestamp()
                 };
 
                 await addDoc(collection(db, "pedidos_kairo"), nuevoPedido);
                 
-                // MENSAJE ACTUALIZADO
                 alert(`¡Gracias! Kairo Sushi se pondrá en contacto contigo para cobrarte el pedido.`);
 
                 carrito = [];
