@@ -4,68 +4,94 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Kairo Sushi | Menú Digital</title>
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;800;900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;800;900&display=swap" rel="stylesheet">
     <style>
         :root {
             --rojo-kairo: #C6000F;
             --negro-absoluto: #000000;
             --gris-fondo: #111111;
             --blanco: #FFFFFF;
-            --texto-oscuro: #1A1A1A;
             --verde-wa: #25D366;
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Montserrat', sans-serif; -webkit-tap-highlight-color: transparent; }
         body { background-color: var(--negro-absoluto); color: var(--blanco); overflow-x: hidden; }
 
-        /* --- PANTALLA DE CARGA Y LOGO ANIMADO --- */
+        /* --- PANTALLA DE CARGA Y LOGO ANIMADO INICIAL --- */
         #pantalla-carga { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background-color: var(--negro-absoluto); z-index: 9998; transition: opacity 0.8s ease-in-out; }
         #logo-animado { position: fixed; top: 37.5px; left: 20px; width: 80px; mix-blend-mode: lighten; filter: contrast(1.2); z-index: 9999; transition: transform 1.3s cubic-bezier(0.77, 0, 0.175, 1); transform: translate(0, -50%) scale(1); }
         
         #contenido-principal { opacity: 0; transition: opacity 1s ease-in; padding-top: 80px; }
         #contenido-principal.visible { opacity: 1; }
 
-        /* --- HEADER Y APARICIÓN GRADUAL --- */
-        header { position: fixed; top: 0; left: 0; width: 100%; height: 75px; background-color: rgba(0,0,0,0.9); backdrop-filter: blur(10px); z-index: 9997; display: flex; justify-content: flex-end; align-items: center; padding: 0 15px; border-bottom: 1px solid #222; }
+        /* --- HEADER PRINCIPAL --- */
+        header { position: fixed; top: 0; left: 0; width: 100%; height: 75px; background-color: rgba(0,0,0,0.85); backdrop-filter: blur(10px); z-index: 9997; display: flex; justify-content: flex-end; align-items: center; padding: 0 20px; border-bottom: 1px solid #222; }
+        #header-botones { display: flex; align-items: center; gap: 20px; opacity: 0; transition: opacity 1s ease-in-out; }
+        .carrito-btn { background-color: var(--rojo-kairo); color: var(--blanco); border: none; padding: 8px 18px; border-radius: 20px; font-weight: 800; font-size: 13px; cursor: pointer; box-shadow: 0 4px 10px rgba(198, 0, 15, 0.4); }
         
-        /* Contenedor de botones que aparecerá después de la animación */
-        #header-botones { display: flex; align-items: center; gap: 15px; opacity: 0; transition: opacity 1s ease-in-out; }
-        
-        .carrito-btn { background-color: var(--rojo-kairo); color: var(--blanco); border: none; padding: 8px 15px; border-radius: 20px; font-weight: 800; font-size: 13px; cursor: pointer; box-shadow: 0 4px 10px rgba(198, 0, 15, 0.4); }
-        
-        /* Icono Hamburguesa Estético */
         .menu-hamburguesa { display: flex; flex-direction: column; gap: 6px; cursor: pointer; padding: 5px; }
-        .menu-hamburguesa span { width: 30px; height: 2px; background-color: var(--blanco); transition: 0.3s; }
+        .menu-hamburguesa span { width: 32px; height: 2px; background-color: var(--blanco); transition: 0.3s; }
 
-        /* --- MENÚ CORPORATIVO (ESTILO VIDEO LLOUD) --- */
+        /* --- MENÚ CORPORATIVO (ESTÉTICA INMERSIVA PREMIUM) --- */
         #menu-corporativo { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background-color: var(--negro-absoluto); z-index: 10005; overflow-y: auto; overflow-x: hidden; opacity: 0; pointer-events: none; transition: opacity 0.6s ease; }
         #menu-corporativo.abierto { opacity: 1; pointer-events: auto; }
         
-        .btn-cerrar-corp { position: absolute; top: 20px; right: 20px; font-size: 35px; color: var(--blanco); background: none; border: none; cursor: pointer; z-index: 10006; font-weight: 300; }
+        /* Botón de cerrar ultra-minimalista, visible sobre la imagen o el fondo negro */
+        .btn-cerrar-corp { position: fixed; top: 15px; right: 20px; font-size: 45px; color: var(--blanco); background: none; border: none; cursor: pointer; z-index: 10010; font-weight: 300; mix-blend-mode: difference; }
 
-        /* Clases para el efecto Scroll Reveal (como en el video) */
-        .reveal { opacity: 0; transform: translateY(40px); transition: all 1s cubic-bezier(0.25, 1, 0.5, 1); }
+        /* EFECTO CORTINA / PARALLAX PARA LA IMAGEN DE INICIO */
+        .corp-hero-parallax {
+            position: sticky; /* Se queda pegado mientras bajas */
+            top: 0; left: 0; width: 100%; height: 100vh;
+            display: flex; justify-content: center; align-items: center;
+            z-index: 0; /* Por debajo del texto de contenido */
+            background-color: var(--negro-absoluto);
+        }
+        
+        /* La nueva imagen vibrante de inicio */
+        .corp-hero-parallax img { 
+            position: absolute; top: 0; left: 0; 
+            width: 100%; height: 100%; 
+            object-fit: cover; /* Asegura que cubra la pantalla en celulares */
+            filter: brightness(0.9); /* Solo un poco de oscurecimiento para cuando suba el texto */
+            z-index: 0; 
+        }
+
+        /* CONTENEDOR QUE CUBRE AL INICIO VIBRANTE */
+        .corp-content-wrapper {
+            position: relative; z-index: 2; /* Pasa por encima de la imagen de inicio */
+            background-color: var(--negro-absoluto); /* Fondo negro sólido para "esconder" la intro */
+            padding-bottom: 50px;
+        }
+
+        .reveal { opacity: 0; transform: translateY(50px); transition: all 1.2s cubic-bezier(0.25, 1, 0.5, 1); }
         .reveal.activo { opacity: 1; transform: translateY(0); }
 
-        /* Tipografía y secciones del Menú Corporativo */
-        .corp-header { text-align: center; padding: 100px 20px 60px; }
-        .corp-header h1 { font-size: 45px; font-weight: 900; line-height: 1.1; text-transform: uppercase; margin-bottom: 20px; }
-        .corp-header h1 span { color: var(--rojo-kairo); }
+        .corp-section { padding: 80px 25px; border-bottom: 1px solid #111; text-align: center; }
+        .corp-section.left { text-align: left; }
         
-        .corp-section { padding: 50px 25px; border-top: 1px solid #222; }
-        .corp-section h2 { font-size: 28px; font-weight: 800; margin-bottom: 20px; color: var(--rojo-kairo); }
-        .corp-section p { font-size: 15px; line-height: 1.6; color: #ccc; margin-bottom: 15px; font-weight: 400; }
-        .corp-section ul { list-style: none; padding: 0; color: #ccc; font-size: 15px; line-height: 1.8; }
-        .corp-section ul li::before { content: "• "; color: var(--rojo-kairo); font-weight: bold; }
+        .corp-section h2 { font-size: 32px; font-weight: 900; margin-bottom: 30px; color: var(--blanco); text-transform: uppercase; letter-spacing: 1px; }
+        .corp-section h2 span { color: var(--rojo-kairo); }
+        .corp-section h3 { font-size: 18px; color: var(--blanco); margin-top: 35px; margin-bottom: 15px; text-transform: uppercase; letter-spacing: 1px; }
+        .corp-section p { font-size: 16px; line-height: 1.8; color: #bbb; margin-bottom: 20px; font-weight: 300; }
         
-        .directorio-item { margin-bottom: 20px; }
-        .directorio-item h4 { font-size: 18px; font-weight: 800; color: var(--blanco); }
-        .directorio-item span { color: var(--rojo-kairo); font-size: 13px; text-transform: uppercase; font-weight: 800; display: block; margin-bottom: 5px; }
+        .corp-section ul { list-style: none; padding: 0; color: #bbb; font-size: 16px; line-height: 2; font-weight: 300; }
+        .corp-section ul li { margin-bottom: 15px; position: relative; padding-left: 20px; text-align: left;}
+        .corp-section ul li::before { content: "—"; color: var(--rojo-kairo); font-weight: bold; position: absolute; left: 0; }
+        
+        .directorio-item { margin-bottom: 35px; text-align: left; padding: 0 15px; border-left: 2px solid var(--rojo-kairo); }
+        .directorio-item h4 { font-size: 22px; font-weight: 800; color: var(--blanco); margin-bottom: 5px; text-transform: uppercase; }
+        .directorio-item span { color: #888; font-size: 12px; text-transform: uppercase; font-weight: 600; display: block; margin-bottom: 10px; letter-spacing: 2px; }
+        .directorio-item p { margin-bottom: 0; font-size: 15px; color: #aaa; }
 
-        /* Imágenes inmersivas de borde a borde */
+        .frase-institucional { margin-top: 60px; padding: 40px 20px; background: #0a0a0a; text-align: center; border-radius: 15px; border: 1px solid #222; }
+        .frase-institucional p { color: var(--blanco); font-style: italic; font-weight: 400; font-size: 18px; margin: 0; line-height: 1.6; }
+        
+        /* Imágenes inmersivas divisorias */
         .img-fullscreen { width: 100%; height: 60vh; object-fit: cover; display: block; filter: brightness(0.8); }
+        .img-logo-corp { width: 100%; height: 40vh; object-fit: contain; background-color: var(--negro-absoluto); padding: 50px; }
 
-        /* --- SECCIONES DEL MENÚ DE COMIDA (Página principal) --- */
+        /* --- SECCIONES DEL MENÚ DE COMIDA PRINCIPAL --- */
         .hero-video-section { padding: 20px 15px; text-align: center; }
         .hero-title { font-size: 18px; font-weight: 800; margin-bottom: 15px; text-transform: uppercase; }
         .hero-title span { color: var(--rojo-kairo); display: block; font-size: 22px; }
@@ -84,7 +110,7 @@
         .precio { font-size: 16px; font-weight: 900; color: var(--texto-oscuro); }
         .btn-pedir { background-color: var(--rojo-kairo); color: var(--blanco); border: none; padding: 6px 15px; border-radius: 15px; font-size: 12px; font-weight: 800; cursor: pointer; }
 
-        /* --- CARRITO --- */
+        /* --- CARRITO MODAL ESCOLAR --- */
         #carrito-modal { position: fixed; top: 0; right: -100%; width: 100%; max-width: 400px; height: 100vh; background-color: var(--gris-fondo); z-index: 10000; transition: right 0.4s ease; display: flex; flex-direction: column; }
         #carrito-modal.abierto { right: 0; }
         .carrito-header { padding: 20px; border-bottom: 1px solid #333; display: flex; justify-content: space-between; align-items: center; }
@@ -108,79 +134,113 @@
     <div id="menu-corporativo">
         <button class="btn-cerrar-corp" onclick="cerrarMenuCorporativo()">×</button>
         
-        <div class="corp-header reveal">
-            <h1>Bienvenidos a<br><span>Kairo Sushi</span></h1>
-            <p style="font-size: 18px; color: #aaa; margin-top: 10px;">Más que sushi, una experiencia que se queda contigo.</p>
+        <div class="corp-hero-parallax">
+            <img src="intro.jpg" alt="Bienvenidos a Kairo Sushi">
         </div>
 
-        <img src="chica-sushi.jpg" class="img-fullscreen reveal" alt="Experiencia Kairo">
-
-        <div class="corp-section reveal">
-            <h2>Misión</h2>
-            <p>Brindar a nuestros clientes una experiencia gastronómica fresca, auténtica y memorable a través de sushi de alta calidad, atractivo y accesible, creando vínculos cercanos que transformen cada visita en un momento especial. En Kairo Sushi no solo servimos comida: cultivamos confianza, comunidad y satisfacción en cada detalle del servicio.</p>
-        </div>
-
-        <div class="corp-section reveal">
-            <h2>Visión</h2>
-            <p>Ser la cadena de sushi líder en México y consolidarnos como la marca número uno a nivel mundial, reconocida por nuestra innovación culinaria, excelencia en servicio, alianzas estratégicas y compromiso genuino con nuestros clientes y la sociedad.</p>
-        </div>
-
-        <div class="corp-section reveal">
-            <h2>Valores Corporativos</h2>
-            <ul>
-                <li>Frescura y calidad sin compromiso</li>
-                <li>Cercanía humana</li>
-                <li>Innovación constante</li>
-                <li>Excelencia en servicio</li>
-                <li>Responsabilidad social</li>
-                <li>Pasión por los detalles</li>
-            </ul>
-        </div>
-
-        <img src="edificio-pk.jpg" class="img-fullscreen reveal" alt="Corporativo P&K">
-
-        <div class="corp-section reveal">
-            <h2>Grupo Corporativo</h2>
-            <p><strong>P&K Company</strong> es el grupo corporativo del que forma parte la cadena Kairo Sushi, junto con otras marcas estratégicas como Wolf Coffee y Vita. Este grupo se enfoca en el desarrollo de conceptos innovadores y escalables dentro del sector gastronómico y de consumo.</p>
-            <p>El corporativo es dirigido por su CEO, <strong>Karim Ponce</strong>, responsable de la creación, planeación estratégica y ejecución de cada marca, asegurando estándares de excelencia y visión de expansión internacional.</p>
-        </div>
-
-        <div class="corp-section reveal">
-            <h2>Directorio Estratégico</h2>
+        <div class="corp-content-wrapper">
             
-            <div class="directorio-item">
-                <span>Gerente General y Estratega</span>
-                <h4>Naomi Ríos</h4>
-                <p>Responsable de coordinar operaciones globales, optimizar procesos y garantizar planes de desarrollo.</p>
+            <div class="corp-section reveal">
+                <h2><span>P&K</span> Company</h2>
+                <p>El grupo corporativo del que forma parte la cadena <strong>Kairo Sushi</strong>, junto con otras marcas estratégicas como Wolf Coffee y Vita. Este grupo se enfoca en el desarrollo de conceptos innovadores y escalables dentro del sector gastronómico y de consumo, destacando por su identidad sólida, calidad y enfoque en la experiencia del cliente.</p>
+                <p>Dirigido por su CEO, <strong>Karim Ponce</strong>, responsable de la creación, planeación estratégica y ejecución de cada marca, asegurando que todas operen bajo estándares de excelencia, innovación constante y visión de expansión internacional.</p>
             </div>
-            <div class="directorio-item">
-                <span>Gerente General de Finanzas</span>
-                <h4>Dalet Gallegos</h4>
-                <p>Supervisa la administración de capital, proyecciones económicas y estrategias de inversión.</p>
-            </div>
-            <div class="directorio-item">
-                <span>Gerente General de Ventas</span>
-                <h4>Brando Luna</h4>
-                <p>Dirige la expansión comercial, alianzas estratégicas y posicionamiento de mercado.</p>
-            </div>
-            <div class="directorio-item">
-                <span>Gerente General de Publicidad</span>
-                <h4>Sofía Hernández</h4>
-                <p>Encargada de la imagen corporativa, campañas creativas y estrategias de comunicación.</p>
-            </div>
-            <div class="directorio-item">
-                <span>Gerente General de Marketing (TNK)</span>
-                <h4>Luna Navarrete</h4>
-                <p>Lidera la identidad estratégica y posicionamiento.</p>
-            </div>
-        </div>
 
-        <div class="corp-section reveal" style="text-align: center; padding-bottom: 80px;">
-            <h1 style="font-size: 30px; font-weight: 900; margin-bottom: 20px;">P&K COMPANY</h1>
-            <p style="font-size: 12px; color: #666;">© 2026 Todos los derechos reservados. Kairo Sushi México.</p>
+            <div class="corp-section reveal">
+                <h2 style="margin-bottom: 50px;">Directorio Estratégico</h2>
+                
+                <div class="directorio-item">
+                    <span>Gerente General y Planeación</span>
+                    <h4>Naomi Ríos</h4>
+                    <p>Responsable de coordinar operaciones globales, optimizar procesos internos y garantizar la correcta ejecución de los planes de desarrollo empresarial.</p>
+                </div>
+                <div class="directorio-item">
+                    <span>Gerente General de Finanzas</span>
+                    <h4>Dalet Gallegos</h4>
+                    <p>Supervisa la administración de capital, proyecciones económicas, control presupuestal y estrategias de inversión.</p>
+                </div>
+                <div class="directorio-item">
+                    <span>Gerente General de Ventas</span>
+                    <h4>Brando Luna</h4>
+                    <p>Dirige la expansión comercial, alianzas estratégicas y posicionamiento de mercado de cada marca.</p>
+                </div>
+                <div class="directorio-item">
+                    <span>Gerente General de Publicidad</span>
+                    <h4>Sofía Hernández</h4>
+                    <p>Encargada de la imagen corporativa, campañas creativas y estrategias de comunicación para fortalecer la presencia de marca.</p>
+                </div>
+                <div class="directorio-item">
+                    <span>Gerente General de Marketing (TNK)</span>
+                    <h4>Luna Navarrete</h4>
+                    <p>Lidera la identidad estratégica y posicionamiento.</p>
+                </div>
+            </div>
+
+            <img src="logo-vision.jpg" class="img-logo-corp reveal" alt="Kairo Sushi">
+
+            <div class="corp-section reveal">
+                <h2>Visión</h2>
+                <p>Ser la cadena de sushi líder en México y consolidarnos como la marca número uno a nivel mundial, reconocida por nuestra innovación culinaria, excelencia en servicio, alianzas estratégicas y compromiso genuino con nuestros clientes y la sociedad.</p>
+            </div>
+
+            <img src="bolsa-mision.jpg" class="img-fullscreen reveal" alt="Empaque Kairo Sushi">
+
+            <div class="corp-section reveal">
+                <h2>Misión</h2>
+                <p>Brindar a nuestros clientes una experiencia gastronómica fresca, auténtica y memorable a través de sushi de alta calidad, atractivo y accesible, creando vínculos cercanos que transformen cada visita en un momento especial. En Kairo Sushi no solo servimos comida: cultivamos confianza, comunidad y satisfacción en cada detalle del servicio.</p>
+            </div>
+
+            <img src="fachada-objetivos.jpg" class="img-fullscreen reveal" alt="Kairo Sushi Bar">
+
+            <div class="corp-section left reveal">
+                <h2 style="text-align: center;">Objetivos Estratégicos</h2>
+                
+                <h3>Corto Plazo</h3>
+                <ul>
+                    <li>Garantizar estándares de frescura, presentación y sabor en cada producto.</li>
+                    <li>Posicionar la marca localmente como sinónimo de calidad y confianza.</li>
+                    <li>Crear experiencias de servicio cálidas que hagan sentir al cliente parte de la familia Kairo.</li>
+                </ul>
+
+                <h3>Mediano Plazo</h3>
+                <ul>
+                    <li>Expandir presencia en distintas ciudades de México.</li>
+                    <li>Desarrollar alianzas con corporaciones y plataformas estratégicas.</li>
+                    <li>Innovar constantemente en menú y presentaciones para ofrecer variedad y diferenciación.</li>
+                </ul>
+
+                <h3>Largo Plazo</h3>
+                <ul>
+                    <li>Convertirnos en la marca líder de sushi en México.</li>
+                    <li>Lograr reconocimiento internacional como cadena global.</li>
+                    <li>Impulsar proyectos sociales y causas que reflejen nuestros valores de cuidado, respeto y responsabilidad.</li>
+                </ul>
+            </div>
+
+            <img src="mandil-valores.jpg" class="img-fullscreen reveal" alt="Uniforme Kairo Sushi">
+
+            <div class="corp-section reveal">
+                <h2>Valores Corporativos</h2>
+                <div style="display: flex; flex-wrap: wrap; justify-content: center; gap: 15px; margin-top: 30px;">
+                    <span style="border: 1px solid #333; padding: 10px 20px; border-radius: 30px; color: #ccc; font-weight: 300; font-size: 14px;">Frescura y calidad</span>
+                    <span style="border: 1px solid #333; padding: 10px 20px; border-radius: 30px; color: #ccc; font-weight: 300; font-size: 14px;">Cercanía humana</span>
+                    <span style="border: 1px solid #333; padding: 10px 20px; border-radius: 30px; color: #ccc; font-weight: 300; font-size: 14px;">Innovación constante</span>
+                    <span style="border: 1px solid #333; padding: 10px 20px; border-radius: 30px; color: #ccc; font-weight: 300; font-size: 14px;">Excelencia en servicio</span>
+                    <span style="border: 1px solid #333; padding: 10px 20px; border-radius: 30px; color: #ccc; font-weight: 300; font-size: 14px;">Responsabilidad social</span>
+                    <span style="border: 1px solid #333; padding: 10px 20px; border-radius: 30px; color: #ccc; font-weight: 300; font-size: 14px;">Pasión por los detalles</span>
+                </div>
+
+                <div class="frase-institucional">
+                    <p>"Kairo Sushi: más que sushi, una experiencia que se queda contigo."</p>
+                </div>
+            </div>
+
+            <div class="corp-section reveal" style="text-align: center; padding: 60px 20px 80px; border-top: none;">
+                <h1 style="font-size: 26px; font-weight: 900; margin-bottom: 10px; letter-spacing: 2px;">P&K COMPANY</h1>
+                <p style="font-size: 12px; color: #555;">© 2026 Todos los derechos reservados. Kairo Sushi México.</p>
+            </div>
         </div>
     </div>
-
 
     <div id="contenido-principal">
         <header>
@@ -204,7 +264,7 @@
                 <h2>Pedir Ahora</h2>
                 <div class="grid-menu">
                     <div class="card-platillo">
-                        <div class="card-media"><video src="video2.mp4" autoplay loop muted playsinline></video></div>
+                        <div class="card-media"><video src="video2.mp4" autoplay loop muted playsinline style="object-position: center;"></video></div>
                         <div class="info-platillo">
                             <div><h3>El Gran Festín</h3><p>Una selección premium perfecta para compartir.</p></div>
                             <div class="precio-pedir"><span class="precio">$950</span><button class="btn-pedir" onclick="agregarAlCarrito('El Gran Festín', 950)">PEDIR</button></div>
@@ -268,21 +328,17 @@
         const app = initializeApp(firebaseConfig);
         const db = getFirestore(app);
 
-        // --- ANIMACIÓN INICIAL FLUIDA Y APARICIÓN DE BOTONES ---
+        // ANIMACIÓN INICIAL DE CARGA
         window.addEventListener('load', () => {
             const logo = document.getElementById('logo-animado');
             const pantalla = document.getElementById('pantalla-carga');
             const main = document.getElementById('contenido-principal');
             const botonesHeader = document.getElementById('header-botones');
 
-            const cX = window.innerWidth / 2;
-            const cY = window.innerHeight / 2;
-            const finalW = 80;
-            const finalCenterX = 20 + finalW / 2; 
-            const finalCenterY = 37.5; 
+            const cX = window.innerWidth / 2; const cY = window.innerHeight / 2;
+            const finalW = 80; const finalCenterX = 20 + finalW / 2; const finalCenterY = 37.5; 
             const initialScale = 350 / finalW;
-            const transX = cX - finalCenterX;
-            const transY = cY - finalCenterY;
+            const transX = cX - finalCenterX; const transY = cY - finalCenterY;
 
             logo.style.transition = 'none'; 
             logo.style.transform = `translate(${transX}px, ${transY}px) translate(0, -50%) scale(${initialScale})`;
@@ -290,35 +346,29 @@
             setTimeout(() => {
                 logo.style.transition = 'transform 1.3s cubic-bezier(0.77, 0, 0.175, 1)';
                 logo.style.transform = '';
-
                 pantalla.style.opacity = "0";
                 main.classList.add('visible');
                 
-                // Hace aparecer los botones suavemente cuando el logo va llegando a la esquina
-                setTimeout(() => { 
-                    botonesHeader.style.opacity = '1'; 
-                }, 800);
-
+                setTimeout(() => { botonesHeader.style.opacity = '1'; }, 800);
                 setTimeout(() => { pantalla.style.display = "none"; }, 800);
-
             }, 1000); 
         });
 
-        // --- FUNCIONES DEL MENÚ CORPORATIVO ---
+        // FUNCIONES DEL MENÚ CORPORATIVO (SCROLL REVEAL)
         window.abrirMenuCorporativo = function() {
             document.getElementById('menu-corporativo').classList.add('abierto');
+            setTimeout(revelarAlScroll, 100); 
         }
         window.cerrarMenuCorporativo = function() {
             document.getElementById('menu-corporativo').classList.remove('abierto');
         }
 
-        // --- LÓGICA DE ANIMACIÓN AL HACER SCROLL (SCROLL REVEAL) ---
         function revelarAlScroll() {
             const revelados = document.querySelectorAll('.reveal');
             for (let i = 0; i < revelados.length; i++) {
                 const windowHeight = window.innerHeight;
                 const elementTop = revelados[i].getBoundingClientRect().top;
-                const elementVisible = 100; // Píxeles antes de que aparezca
+                const elementVisible = 80; 
                 if (elementTop < windowHeight - elementVisible) {
                     revelados[i].classList.add('activo');
                 }
@@ -326,17 +376,13 @@
         }
         // Escucha el scroll DENTRO del menú corporativo
         document.getElementById('menu-corporativo').addEventListener('scroll', revelarAlScroll);
-        // Disparar una vez al abrir por si los primeros elementos ya están en pantalla
-        document.getElementById('menu-corporativo').addEventListener('transitionend', revelarAlScroll);
 
-        // --- LÓGICA DEL CARRITO Y BASE DE DATOS (Igual que antes) ---
-        let carrito = [];
-        let total = 0;
+        // LÓGICA DEL CARRITO
+        let carrito = []; let total = 0;
 
         window.agregarAlCarrito = function(nombre, precio) {
             let itemExistente = carrito.find(item => item.nombre === nombre);
-            if (itemExistente) { itemExistente.cantidad++; } 
-            else { carrito.push({ nombre: nombre, precio: precio, cantidad: 1 }); }
+            if (itemExistente) { itemExistente.cantidad++; } else { carrito.push({ nombre: nombre, precio: precio, cantidad: 1 }); }
             actualizarCarrito();
         }
 
@@ -347,7 +393,6 @@
             const seccionDatos = document.getElementById('seccion-datos');
             
             lista.innerHTML = ''; total = 0; let cantidadTotal = 0;
-
             if (carrito.length === 0) {
                 lista.innerHTML = '<p style="color: #888; text-align: center; margin-top: 20px;">Tu orden está vacía.</p>';
                 seccionDatos.style.display = 'none';
@@ -359,8 +404,7 @@
                     lista.innerHTML += `<div class="item-carrito"><div><strong>${item.cantidad}x</strong> ${item.nombre}</div><div>$${subtotal}</div></div>`;
                 });
             }
-            totalTexto.innerText = `$${total}`;
-            contadorHeader.innerText = cantidadTotal;
+            totalTexto.innerText = `$${total}`; contadorHeader.innerText = cantidadTotal;
         }
 
         window.abrirCarrito = function() { document.getElementById('carrito-modal').classList.add('abierto'); }
@@ -368,10 +412,8 @@
 
         window.enviarPedidoBD = async function() {
             if (carrito.length === 0) return;
-            const nombre = document.getElementById('cliente-nombre').value;
-            const telefono = document.getElementById('cliente-telefono').value;
-            const grupo = document.getElementById('cliente-grupo').value;
-            const turno = document.getElementById('cliente-turno').value;
+            const nombre = document.getElementById('cliente-nombre').value; const telefono = document.getElementById('cliente-telefono').value;
+            const grupo = document.getElementById('cliente-grupo').value; const turno = document.getElementById('cliente-turno').value;
             const matricula = document.getElementById('cliente-matricula').value;
 
             if(!nombre || !telefono || !grupo || !turno || !matricula) { alert("Llena todos tus datos escolares."); return; }
@@ -384,11 +426,7 @@
                 alert(`¡Gracias! Kairo Sushi se pondrá en contacto contigo para cobrarte el pedido.`);
                 carrito = []; document.getElementById('cliente-nombre').value = ''; document.getElementById('cliente-telefono').value = ''; document.getElementById('cliente-grupo').value = ''; document.getElementById('cliente-turno').value = ''; document.getElementById('cliente-matricula').value = '';
                 actualizarCarrito(); cerrarCarrito();
-            } catch (error) {
-                console.error(error); alert("Hubo un error.");
-            } finally {
-                btn.innerText = "Confirmar Pedido 🥢"; btn.disabled = false;
-            }
+            } catch (error) { console.error(error); alert("Hubo un error."); } finally { btn.innerText = "Confirmar Pedido 🥢"; btn.disabled = false; }
         }
     </script>
 </body>
