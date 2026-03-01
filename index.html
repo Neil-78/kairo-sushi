@@ -39,43 +39,13 @@
         .btn-cerrar-corp { position: fixed; top: 15px; right: 20px; font-size: 45px; color: var(--blanco); background: none; border: none; cursor: pointer; z-index: 10010; font-weight: 300; mix-blend-mode: difference; }
 
         /* EFECTO CORTINA / PARALLAX PARA LA IMAGEN DE INICIO */
-        .corp-hero-parallax {
-            position: sticky; 
-            top: 0; left: 0; width: 100%; height: 100vh;
-            display: flex; justify-content: center; align-items: flex-start; /* Alineado arriba para el texto */
-            z-index: 0; 
-            background-color: var(--negro-absoluto);
-        }
-        
-        .corp-hero-parallax img { 
-            position: absolute; top: 0; left: 0; 
-            width: 100%; height: 100%; 
-            object-fit: cover; 
-            filter: brightness(0.7); /* Oscurece la imagen para que el texto blanco resalte */
-            z-index: 0; 
-        }
+        .corp-hero-parallax { position: sticky; top: 0; left: 0; width: 100%; height: 100vh; display: flex; justify-content: center; align-items: flex-start; z-index: 0; background-color: var(--negro-absoluto); }
+        .corp-hero-parallax img { position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; filter: brightness(0.7); z-index: 0; }
 
-        /* TEXTO "BIENVENIDOS A KAIRO SUSHI" ESTILO LLOUD */
-        .texto-bienvenida-intro {
-            position: relative;
-            z-index: 1;
-            margin-top: 15vh; /* Ajuste para que quede en la parte superior como en el video */
-            width: 100%;
-            text-align: center;
-            font-size: 32px;
-            font-weight: 900;
-            color: var(--blanco);
-            text-transform: uppercase;
-            letter-spacing: 3px;
-            padding: 0 20px;
-        }
+        .texto-bienvenida-intro { position: relative; z-index: 1; margin-top: 15vh; width: 100%; text-align: center; font-size: 32px; font-weight: 900; color: var(--blanco); text-transform: uppercase; letter-spacing: 3px; padding: 0 20px; }
 
         /* CONTENEDOR QUE CUBRE AL INICIO VIBRANTE */
-        .corp-content-wrapper {
-            position: relative; z-index: 2; 
-            background-color: var(--negro-absoluto); 
-            padding-bottom: 50px;
-        }
+        .corp-content-wrapper { position: relative; z-index: 2; background-color: var(--negro-absoluto); padding-bottom: 50px; }
 
         .reveal { opacity: 0; transform: translateY(50px); transition: all 1.2s cubic-bezier(0.25, 1, 0.5, 1); }
         .reveal.activo { opacity: 1; transform: translateY(0); }
@@ -97,21 +67,8 @@
         .directorio-item span { color: #888; font-size: 12px; text-transform: uppercase; font-weight: 600; display: block; margin-bottom: 10px; letter-spacing: 2px; }
         .directorio-item p { margin-bottom: 0; font-size: 15px; color: #aaa; }
 
-        /* DISEÑO ESPECIAL PARA P&K COMPANY + EDIFICIO */
-        .pk-container {
-            display: flex;
-            flex-direction: column;
-            gap: 30px;
-            align-items: center;
-            text-align: left;
-        }
-        .pk-edificio-img {
-            width: 100%;
-            max-height: 450px;
-            object-fit: cover;
-            border-radius: 12px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.8);
-        }
+        .pk-container { display: flex; flex-direction: column; gap: 30px; align-items: center; text-align: left; }
+        .pk-edificio-img { width: 100%; max-height: 450px; object-fit: cover; border-radius: 12px; box-shadow: 0 10px 30px rgba(0,0,0,0.8); }
         @media (min-width: 768px) {
             .pk-container { flex-direction: row; align-items: stretch; }
             .pk-edificio-img { width: 45%; height: auto; }
@@ -121,7 +78,6 @@
         .frase-institucional { margin-top: 60px; padding: 40px 20px; background: #0a0a0a; text-align: center; border-radius: 15px; border: 1px solid #222; }
         .frase-institucional p { color: var(--blanco); font-style: italic; font-weight: 400; font-size: 18px; margin: 0; line-height: 1.6; }
         
-        /* Imágenes inmersivas divisorias */
         .img-fullscreen { width: 100%; height: 60vh; object-fit: cover; display: block; filter: brightness(0.8); }
         .img-logo-corp { width: 100%; height: 40vh; object-fit: contain; background-color: var(--negro-absoluto); padding: 50px; }
 
@@ -131,6 +87,7 @@
         .hero-title span { color: var(--rojo-kairo); display: block; font-size: 22px; }
         .video-container { width: 100%; border-radius: 15px; overflow: hidden; box-shadow: 0 5px 20px rgba(198, 0, 15, 0.2); background-color: #222; }
         .video-container video, .video-container img { width: 100%; display: block; }
+        
         .seccion-menu { padding: 20px 15px; }
         .seccion-menu h2 { font-size: 18px; margin-bottom: 15px; text-transform: uppercase; font-weight: 800; }
         .grid-menu { display: grid; grid-template-columns: 1fr; gap: 15px; }
@@ -139,7 +96,10 @@
         .card-media video, .card-media img { width: 100%; height: 100%; object-fit: cover; position: absolute; top: 0; left: 0; }
         .info-platillo { width: 60%; padding: 12px; display: flex; flex-direction: column; justify-content: space-between; }
         .info-platillo h3 { font-size: 15px; font-weight: 800; margin-bottom: 4px; text-transform: uppercase; }
-        .info-platillo p { font-size: 11px; color: #555; margin-bottom: 10px; }
+        /* Nuevo estilo para la lista de ingredientes */
+        .ingredientes { font-size: 11px; color: #555; margin-bottom: 10px; line-height: 1.4; }
+        .ingredientes strong { color: var(--rojo-kairo); font-weight: 800; }
+        
         .precio-pedir { display: flex; justify-content: space-between; align-items: center; margin-top: auto; }
         .precio { font-size: 16px; font-weight: 900; color: var(--texto-oscuro); }
         .btn-pedir { background-color: var(--rojo-kairo); color: var(--blanco); border: none; padding: 6px 15px; border-radius: 15px; font-size: 12px; font-weight: 800; cursor: pointer; }
@@ -170,13 +130,10 @@
         
         <div class="corp-hero-parallax">
             <img src="intro.jpg" alt="Intro Kairo Sushi">
-            <div class="texto-bienvenida-intro reveal">
-                Bienvenidos a<br>Kairo Sushi
-            </div>
+            <div class="texto-bienvenida-intro reveal">Bienvenidos a<br>Kairo Sushi</div>
         </div>
 
         <div class="corp-content-wrapper">
-            
             <div class="corp-section reveal" style="padding-top: 50px;">
                 <div class="pk-container">
                     <img src="edificio.jpg" alt="Edificio P&K Company" class="pk-edificio-img">
@@ -190,32 +147,11 @@
 
             <div class="corp-section reveal">
                 <h2 style="margin-bottom: 50px;">Directorio Estratégico</h2>
-                
-                <div class="directorio-item">
-                    <span>Gerente General y Planeación</span>
-                    <h4>Naomi Ríos</h4>
-                    <p>Responsable de coordinar operaciones globales, optimizar procesos internos y garantizar la correcta ejecución de los planes de desarrollo empresarial.</p>
-                </div>
-                <div class="directorio-item">
-                    <span>Gerente General de Finanzas</span>
-                    <h4>Dalet Gallegos</h4>
-                    <p>Supervisa la administración de capital, proyecciones económicas, control presupuestal y estrategias de inversión.</p>
-                </div>
-                <div class="directorio-item">
-                    <span>Gerente General de Ventas</span>
-                    <h4>Brando Luna</h4>
-                    <p>Dirige la expansión comercial, alianzas estratégicas y posicionamiento de mercado de cada marca.</p>
-                </div>
-                <div class="directorio-item">
-                    <span>Gerente General de Publicidad</span>
-                    <h4>Sofía Hernández</h4>
-                    <p>Encargada de la imagen corporativa, campañas creativas y estrategias de comunicación para fortalecer la presencia de marca.</p>
-                </div>
-                <div class="directorio-item">
-                    <span>Gerente General de Marketing (TNK)</span>
-                    <h4>Luna Navarrete</h4>
-                    <p>Lidera la identidad estratégica y posicionamiento.</p>
-                </div>
+                <div class="directorio-item"><span>Gerente General y Planeación</span><h4>Naomi Ríos</h4><p>Responsable de coordinar operaciones globales, optimizar procesos internos y garantizar la correcta ejecución de los planes de desarrollo empresarial.</p></div>
+                <div class="directorio-item"><span>Gerente General de Finanzas</span><h4>Dalet Gallegos</h4><p>Supervisa la administración de capital, proyecciones económicas, control presupuestal y estrategias de inversión.</p></div>
+                <div class="directorio-item"><span>Gerente General de Ventas</span><h4>Brando Luna</h4><p>Dirige la expansión comercial, alianzas estratégicas y posicionamiento de mercado de cada marca.</p></div>
+                <div class="directorio-item"><span>Gerente General de Publicidad</span><h4>Sofía Hernández</h4><p>Encargada de la imagen corporativa, campañas creativas y estrategias de comunicación para fortalecer la presencia de marca.</p></div>
+                <div class="directorio-item"><span>Gerente General de Marketing (TNK)</span><h4>Luna Navarrete</h4><p>Lidera la identidad estratégica y posicionamiento.</p></div>
             </div>
 
             <img src="logo-vision.jpg" class="img-logo-corp reveal" alt="Kairo Sushi">
@@ -236,27 +172,12 @@
 
             <div class="corp-section left reveal">
                 <h2 style="text-align: center;">Objetivos Estratégicos</h2>
-                
                 <h3>Corto Plazo</h3>
-                <ul>
-                    <li>Garantizar estándares de frescura, presentación y sabor en cada producto.</li>
-                    <li>Posicionar la marca localmente como sinónimo de calidad y confianza.</li>
-                    <li>Crear experiencias de servicio cálidas que hagan sentir al cliente parte de la familia Kairo.</li>
-                </ul>
-
+                <ul><li>Garantizar estándares de frescura, presentación y sabor en cada producto.</li><li>Posicionar la marca localmente como sinónimo de calidad y confianza.</li><li>Crear experiencias de servicio cálidas que hagan sentir al cliente parte de la familia Kairo.</li></ul>
                 <h3>Mediano Plazo</h3>
-                <ul>
-                    <li>Expandir presencia en distintas ciudades de México.</li>
-                    <li>Desarrollar alianzas con corporaciones y plataformas estratégicas.</li>
-                    <li>Innovar constantemente en menú y presentaciones para ofrecer variedad y diferenciación.</li>
-                </ul>
-
+                <ul><li>Expandir presencia en distintas ciudades de México.</li><li>Desarrollar alianzas con corporaciones y plataformas estratégicas.</li><li>Innovar constantemente en menú y presentaciones para ofrecer variedad y diferenciación.</li></ul>
                 <h3>Largo Plazo</h3>
-                <ul>
-                    <li>Convertirnos en la marca líder de sushi en México.</li>
-                    <li>Lograr reconocimiento internacional como cadena global.</li>
-                    <li>Impulsar proyectos sociales y causas que reflejen nuestros valores de cuidado, respeto y responsabilidad.</li>
-                </ul>
+                <ul><li>Convertirnos en la marca líder de sushi en México.</li><li>Lograr reconocimiento internacional como cadena global.</li><li>Impulsar proyectos sociales y causas que reflejen nuestros valores de cuidado, respeto y responsabilidad.</li></ul>
             </div>
 
             <img src="mandil-valores.jpg" class="img-fullscreen reveal" alt="Uniforme Kairo Sushi">
@@ -271,10 +192,7 @@
                     <span style="border: 1px solid #333; padding: 10px 20px; border-radius: 30px; color: #ccc; font-weight: 300; font-size: 14px;">Responsabilidad social</span>
                     <span style="border: 1px solid #333; padding: 10px 20px; border-radius: 30px; color: #ccc; font-weight: 300; font-size: 14px;">Pasión por los detalles</span>
                 </div>
-
-                <div class="frase-institucional">
-                    <p>"Kairo Sushi: más que sushi, una experiencia que se queda contigo."</p>
-                </div>
+                <div class="frase-institucional"><p>"Kairo Sushi: más que sushi, una experiencia que se queda contigo."</p></div>
             </div>
 
             <div class="corp-section reveal" style="text-align: center; padding: 60px 20px 80px; border-top: none;">
@@ -304,28 +222,65 @@
 
             <section class="seccion-menu">
                 <h2>Pedir Ahora</h2>
+                
                 <div class="grid-menu">
+                    
                     <div class="card-platillo">
-                        <div class="card-media"><video src="video2.mp4" autoplay loop muted playsinline style="object-position: center;"></video></div>
+                        <div class="card-media"><video src="sushi-camaron.mp4" autoplay loop muted playsinline style="object-position: center;"></video></div>
                         <div class="info-platillo">
-                            <div><h3>El Gran Festín</h3><p>Una selección premium perfecta para compartir.</p></div>
-                            <div class="precio-pedir"><span class="precio">$950</span><button class="btn-pedir" onclick="agregarAlCarrito('El Gran Festín', 950)">PEDIR</button></div>
+                            <div>
+                                <h3>Sushi de Camarón</h3>
+                                <p class="ingredientes"><strong>12 rollos.</strong> Camarón, pepino, Philadelphia, aguacate, arroz y alga.</p>
+                            </div>
+                            <div class="precio-pedir">
+                                <span class="precio">$95</span>
+                                <button class="btn-pedir" onclick="agregarAlCarrito('Sushi de Camarón', 95)">PEDIR</button>
+                            </div>
                         </div>
                     </div>
+
                     <div class="card-platillo">
-                        <div class="card-media"><video src="video3.mp4" autoplay loop muted playsinline></video></div>
+                        <div class="card-media"><video src="sushi-pulpo.mp4" autoplay loop muted playsinline></video></div>
                         <div class="info-platillo">
-                            <div><h3>Rojo Tradición</h3><p>Disfruta de la textura del masago y camarón.</p></div>
-                            <div class="precio-pedir"><span class="precio">$210</span><button class="btn-pedir" onclick="agregarAlCarrito('Rojo Tradición', 210)">PEDIR</button></div>
+                            <div>
+                                <h3>Sushi de Pulpo</h3>
+                                <p class="ingredientes"><strong>12 rollos.</strong> Pulpo, aguacate, queso Philadelphia, pepino, arroz y alga.</p>
+                            </div>
+                            <div class="precio-pedir">
+                                <span class="precio">$90</span>
+                                <button class="btn-pedir" onclick="agregarAlCarrito('Sushi de Pulpo', 90)">PEDIR</button>
+                            </div>
                         </div>
                     </div>
+
                     <div class="card-platillo">
-                        <div class="card-media"><img src="foto-sushi-1.jpg" alt="Rollo Kairo"></div>
+                        <div class="card-media"><video src="sushi-surimi.mp4" autoplay loop muted playsinline></video></div>
                         <div class="info-platillo">
-                            <div><h3>Rollo Kairo Sushi</h3><p>Nuestro rollo insignia preparado al momento.</p></div>
-                            <div class="precio-pedir"><span class="precio">$190</span><button class="btn-pedir" onclick="agregarAlCarrito('Rollo Kairo Sushi', 190)">PEDIR</button></div>
+                            <div>
+                                <h3>Sushi de Surimi</h3>
+                                <p class="ingredientes"><strong>12 rollos.</strong> Surimi, pepino, aguacate, Philadelphia, arroz y alga.</p>
+                            </div>
+                            <div class="precio-pedir">
+                                <span class="precio">$85</span>
+                                <button class="btn-pedir" onclick="agregarAlCarrito('Sushi de Surimi', 85)">PEDIR</button>
+                            </div>
                         </div>
                     </div>
+
+                    <div class="card-platillo">
+                        <div class="card-media"><video src="sushi-flamin.mp4" autoplay loop muted playsinline></video></div>
+                        <div class="info-platillo">
+                            <div>
+                                <h3>Sushi Flamin Hot</h3>
+                                <p class="ingredientes"><strong>12 rollos.</strong> Camarón, Cheetos Flamin Hot, aguacate, pepino, queso Philadelphia, arroz y alga.</p>
+                            </div>
+                            <div class="precio-pedir">
+                                <span class="precio">$95</span>
+                                <button class="btn-pedir" onclick="agregarAlCarrito('Sushi Flamin Hot', 95)">PEDIR</button>
+                            </div>
+                        </div>
+                    </div>
+
                 </div>
             </section>
         </main>
