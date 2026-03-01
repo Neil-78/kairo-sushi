@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Kairo Sushi | Menú Digital School</title>
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;800;900&display=swap" rel="stylesheet">
+    <title>Kairo Sushi | Menú Digital</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;800;900&display=swap" rel="stylesheet">
     <style>
         :root {
             --rojo-kairo: #C6000F;
@@ -18,45 +18,59 @@
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Montserrat', sans-serif; -webkit-tap-highlight-color: transparent; }
         body { background-color: var(--negro-absoluto); color: var(--blanco); overflow-x: hidden; }
 
-        /* --- PANTALLA DE CARGA NEGRA --- */
-        #pantalla-carga {
-            position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
-            background-color: var(--negro-absoluto); z-index: 9998; /* Un nivel abajo del logo */
-            transition: opacity 0.8s ease-in-out;
-        }
-
-        /* --- LOGO ANIMADO PROFESIONAL (Basado en transforms) --- */
-        #logo-animado {
-            position: fixed; 
-            left: 20px; /* Posición final horizontal estetica */
-            top: 37.5px; /* Posición final vertical (centro exacto del header de 75px) */
-            width: 80px; /* Tamaño final grande y estetico en esquina */
-            mix-blend-mode: lighten; filter: contrast(1.2);
-            z-index: 9999; /* Siempre por encima de todo */
-            
-            /* Performant transition, animando ÚNICAMENTE transform para máxima fluidez */
-            /* Usamos una curva de bezier Quart Ease-In-Out para elegancia natural */
-            transition: transform 1.3s cubic-bezier(0.77, 0, 0.175, 1);
-            
-            /* Estado por defecto (reposo): centrado verticalmente en el header */
-            transform: translate(0, -50%) scale(1); 
-        }
-
+        /* --- PANTALLA DE CARGA Y LOGO ANIMADO --- */
+        #pantalla-carga { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background-color: var(--negro-absoluto); z-index: 9998; transition: opacity 0.8s ease-in-out; }
+        #logo-animado { position: fixed; top: 37.5px; left: 20px; width: 80px; mix-blend-mode: lighten; filter: contrast(1.2); z-index: 9999; transition: transform 1.3s cubic-bezier(0.77, 0, 0.175, 1); transform: translate(0, -50%) scale(1); }
+        
         #contenido-principal { opacity: 0; transition: opacity 1s ease-in; padding-top: 80px; }
         #contenido-principal.visible { opacity: 1; }
 
-        /* --- HEADER --- */
-        header { position: fixed; top: 0; left: 0; width: 100%; height: 75px; background-color: var(--negro-absoluto); z-index: 9997; display: flex; justify-content: flex-end; align-items: center; padding: 0 15px; border-bottom: 1px solid #222; }
-        .carrito-btn { background-color: var(--rojo-kairo); color: var(--blanco); border: none; padding: 10px 15px; border-radius: 20px; font-weight: 600; font-size: 13px; cursor: pointer; box-shadow: 0 4px 10px rgba(198, 0, 15, 0.4); transition: transform 0.2s; }
-        .carrito-btn:active { transform: scale(0.95); }
+        /* --- HEADER Y APARICIÓN GRADUAL --- */
+        header { position: fixed; top: 0; left: 0; width: 100%; height: 75px; background-color: rgba(0,0,0,0.9); backdrop-filter: blur(10px); z-index: 9997; display: flex; justify-content: flex-end; align-items: center; padding: 0 15px; border-bottom: 1px solid #222; }
+        
+        /* Contenedor de botones que aparecerá después de la animación */
+        #header-botones { display: flex; align-items: center; gap: 15px; opacity: 0; transition: opacity 1s ease-in-out; }
+        
+        .carrito-btn { background-color: var(--rojo-kairo); color: var(--blanco); border: none; padding: 8px 15px; border-radius: 20px; font-weight: 800; font-size: 13px; cursor: pointer; box-shadow: 0 4px 10px rgba(198, 0, 15, 0.4); }
+        
+        /* Icono Hamburguesa Estético */
+        .menu-hamburguesa { display: flex; flex-direction: column; gap: 6px; cursor: pointer; padding: 5px; }
+        .menu-hamburguesa span { width: 30px; height: 2px; background-color: var(--blanco); transition: 0.3s; }
 
-        /* --- SECCIONES --- */
+        /* --- MENÚ CORPORATIVO (ESTILO VIDEO LLOUD) --- */
+        #menu-corporativo { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background-color: var(--negro-absoluto); z-index: 10005; overflow-y: auto; overflow-x: hidden; opacity: 0; pointer-events: none; transition: opacity 0.6s ease; }
+        #menu-corporativo.abierto { opacity: 1; pointer-events: auto; }
+        
+        .btn-cerrar-corp { position: absolute; top: 20px; right: 20px; font-size: 35px; color: var(--blanco); background: none; border: none; cursor: pointer; z-index: 10006; font-weight: 300; }
+
+        /* Clases para el efecto Scroll Reveal (como en el video) */
+        .reveal { opacity: 0; transform: translateY(40px); transition: all 1s cubic-bezier(0.25, 1, 0.5, 1); }
+        .reveal.activo { opacity: 1; transform: translateY(0); }
+
+        /* Tipografía y secciones del Menú Corporativo */
+        .corp-header { text-align: center; padding: 100px 20px 60px; }
+        .corp-header h1 { font-size: 45px; font-weight: 900; line-height: 1.1; text-transform: uppercase; margin-bottom: 20px; }
+        .corp-header h1 span { color: var(--rojo-kairo); }
+        
+        .corp-section { padding: 50px 25px; border-top: 1px solid #222; }
+        .corp-section h2 { font-size: 28px; font-weight: 800; margin-bottom: 20px; color: var(--rojo-kairo); }
+        .corp-section p { font-size: 15px; line-height: 1.6; color: #ccc; margin-bottom: 15px; font-weight: 400; }
+        .corp-section ul { list-style: none; padding: 0; color: #ccc; font-size: 15px; line-height: 1.8; }
+        .corp-section ul li::before { content: "• "; color: var(--rojo-kairo); font-weight: bold; }
+        
+        .directorio-item { margin-bottom: 20px; }
+        .directorio-item h4 { font-size: 18px; font-weight: 800; color: var(--blanco); }
+        .directorio-item span { color: var(--rojo-kairo); font-size: 13px; text-transform: uppercase; font-weight: 800; display: block; margin-bottom: 5px; }
+
+        /* Imágenes inmersivas de borde a borde */
+        .img-fullscreen { width: 100%; height: 60vh; object-fit: cover; display: block; filter: brightness(0.8); }
+
+        /* --- SECCIONES DEL MENÚ DE COMIDA (Página principal) --- */
         .hero-video-section { padding: 20px 15px; text-align: center; }
         .hero-title { font-size: 18px; font-weight: 800; margin-bottom: 15px; text-transform: uppercase; }
         .hero-title span { color: var(--rojo-kairo); display: block; font-size: 22px; }
         .video-container { width: 100%; border-radius: 15px; overflow: hidden; box-shadow: 0 5px 20px rgba(198, 0, 15, 0.2); background-color: #222; }
         .video-container video, .video-container img { width: 100%; display: block; }
-
         .seccion-menu { padding: 20px 15px; }
         .seccion-menu h2 { font-size: 18px; margin-bottom: 15px; text-transform: uppercase; font-weight: 800; }
         .grid-menu { display: grid; grid-template-columns: 1fr; gap: 15px; }
@@ -68,25 +82,21 @@
         .info-platillo p { font-size: 11px; color: #555; margin-bottom: 10px; }
         .precio-pedir { display: flex; justify-content: space-between; align-items: center; margin-top: auto; }
         .precio { font-size: 16px; font-weight: 900; color: var(--texto-oscuro); }
-        .btn-pedir { background-color: var(--rojo-kairo); color: var(--blanco); border: none; padding: 6px 15px; border-radius: 15px; font-size: 12px; font-weight: 800; cursor: pointer; transition: 0.3s;}
-        .btn-pedir:active { transform: scale(0.9); }
+        .btn-pedir { background-color: var(--rojo-kairo); color: var(--blanco); border: none; padding: 6px 15px; border-radius: 15px; font-size: 12px; font-weight: 800; cursor: pointer; }
 
-        /* --- CARRITO Y FORMULARIO ESCOLAR --- */
+        /* --- CARRITO --- */
         #carrito-modal { position: fixed; top: 0; right: -100%; width: 100%; max-width: 400px; height: 100vh; background-color: var(--gris-fondo); z-index: 10000; transition: right 0.4s ease; display: flex; flex-direction: column; }
         #carrito-modal.abierto { right: 0; }
         .carrito-header { padding: 20px; border-bottom: 1px solid #333; display: flex; justify-content: space-between; align-items: center; }
         .cerrar-carrito { background: none; border: none; color: white; font-size: 24px; cursor: pointer; }
         .carrito-body { padding: 20px; flex-grow: 1; overflow-y: auto; }
         .item-carrito { display: flex; justify-content: space-between; margin-bottom: 15px; border-bottom: 1px dashed #444; padding-bottom: 10px; }
-        
         .datos-cliente { display: flex; flex-direction: column; gap: 10px; margin-bottom: 20px; }
         .datos-cliente h4 { color: var(--rojo-kairo); font-size: 13px; margin-top: 10px; margin-bottom: -5px; text-transform: uppercase;}
         .datos-cliente input, .datos-cliente select { width: 100%; padding: 12px; border-radius: 8px; border: 1px solid #444; background-color: #222; color: white; font-size: 14px; }
-        
         .carrito-footer { padding: 20px; background-color: #000; }
         .total-container { display: flex; justify-content: space-between; font-size: 18px; font-weight: 800; margin-bottom: 15px; }
         .btn-bd { width: 100%; background-color: var(--rojo-kairo); color: white; border: none; padding: 15px; border-radius: 25px; font-size: 16px; font-weight: bold; cursor: pointer; }
-        .btn-bd:disabled { background-color: #555; }
     </style>
 </head>
 <body>
@@ -95,9 +105,93 @@
 
     <div id="pantalla-carga"></div>
 
+    <div id="menu-corporativo">
+        <button class="btn-cerrar-corp" onclick="cerrarMenuCorporativo()">×</button>
+        
+        <div class="corp-header reveal">
+            <h1>Bienvenidos a<br><span>Kairo Sushi</span></h1>
+            <p style="font-size: 18px; color: #aaa; margin-top: 10px;">Más que sushi, una experiencia que se queda contigo.</p>
+        </div>
+
+        <img src="chica-sushi.jpg" class="img-fullscreen reveal" alt="Experiencia Kairo">
+
+        <div class="corp-section reveal">
+            <h2>Misión</h2>
+            <p>Brindar a nuestros clientes una experiencia gastronómica fresca, auténtica y memorable a través de sushi de alta calidad, atractivo y accesible, creando vínculos cercanos que transformen cada visita en un momento especial. En Kairo Sushi no solo servimos comida: cultivamos confianza, comunidad y satisfacción en cada detalle del servicio.</p>
+        </div>
+
+        <div class="corp-section reveal">
+            <h2>Visión</h2>
+            <p>Ser la cadena de sushi líder en México y consolidarnos como la marca número uno a nivel mundial, reconocida por nuestra innovación culinaria, excelencia en servicio, alianzas estratégicas y compromiso genuino con nuestros clientes y la sociedad.</p>
+        </div>
+
+        <div class="corp-section reveal">
+            <h2>Valores Corporativos</h2>
+            <ul>
+                <li>Frescura y calidad sin compromiso</li>
+                <li>Cercanía humana</li>
+                <li>Innovación constante</li>
+                <li>Excelencia en servicio</li>
+                <li>Responsabilidad social</li>
+                <li>Pasión por los detalles</li>
+            </ul>
+        </div>
+
+        <img src="edificio-pk.jpg" class="img-fullscreen reveal" alt="Corporativo P&K">
+
+        <div class="corp-section reveal">
+            <h2>Grupo Corporativo</h2>
+            <p><strong>P&K Company</strong> es el grupo corporativo del que forma parte la cadena Kairo Sushi, junto con otras marcas estratégicas como Wolf Coffee y Vita. Este grupo se enfoca en el desarrollo de conceptos innovadores y escalables dentro del sector gastronómico y de consumo.</p>
+            <p>El corporativo es dirigido por su CEO, <strong>Karim Ponce</strong>, responsable de la creación, planeación estratégica y ejecución de cada marca, asegurando estándares de excelencia y visión de expansión internacional.</p>
+        </div>
+
+        <div class="corp-section reveal">
+            <h2>Directorio Estratégico</h2>
+            
+            <div class="directorio-item">
+                <span>Gerente General y Estratega</span>
+                <h4>Naomi Ríos</h4>
+                <p>Responsable de coordinar operaciones globales, optimizar procesos y garantizar planes de desarrollo.</p>
+            </div>
+            <div class="directorio-item">
+                <span>Gerente General de Finanzas</span>
+                <h4>Dalet Gallegos</h4>
+                <p>Supervisa la administración de capital, proyecciones económicas y estrategias de inversión.</p>
+            </div>
+            <div class="directorio-item">
+                <span>Gerente General de Ventas</span>
+                <h4>Brando Luna</h4>
+                <p>Dirige la expansión comercial, alianzas estratégicas y posicionamiento de mercado.</p>
+            </div>
+            <div class="directorio-item">
+                <span>Gerente General de Publicidad</span>
+                <h4>Sofía Hernández</h4>
+                <p>Encargada de la imagen corporativa, campañas creativas y estrategias de comunicación.</p>
+            </div>
+            <div class="directorio-item">
+                <span>Gerente General de Marketing (TNK)</span>
+                <h4>Luna Navarrete</h4>
+                <p>Lidera la identidad estratégica y posicionamiento.</p>
+            </div>
+        </div>
+
+        <div class="corp-section reveal" style="text-align: center; padding-bottom: 80px;">
+            <h1 style="font-size: 30px; font-weight: 900; margin-bottom: 20px;">P&K COMPANY</h1>
+            <p style="font-size: 12px; color: #666;">© 2026 Todos los derechos reservados. Kairo Sushi México.</p>
+        </div>
+    </div>
+
+
     <div id="contenido-principal">
         <header>
-            <button class="carrito-btn" onclick="abrirCarrito()">🛒 Ver Orden (<span id="contador-header">0</span>)</button>
+            <div id="header-botones">
+                <button class="carrito-btn" onclick="abrirCarrito()">🛒 Ver Orden (<span id="contador-header">0</span>)</button>
+                <div class="menu-hamburguesa" onclick="abrirMenuCorporativo()">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </div>
+            </div>
         </header>
 
         <main>
@@ -110,13 +204,12 @@
                 <h2>Pedir Ahora</h2>
                 <div class="grid-menu">
                     <div class="card-platillo">
-                        <div class="card-media"><video src="video2.mp4" autoplay loop muted playsinline style="object-position: center;"></video></div>
+                        <div class="card-media"><video src="video2.mp4" autoplay loop muted playsinline></video></div>
                         <div class="info-platillo">
                             <div><h3>El Gran Festín</h3><p>Una selección premium perfecta para compartir.</p></div>
                             <div class="precio-pedir"><span class="precio">$950</span><button class="btn-pedir" onclick="agregarAlCarrito('El Gran Festín', 950)">PEDIR</button></div>
                         </div>
                     </div>
-
                     <div class="card-platillo">
                         <div class="card-media"><video src="video3.mp4" autoplay loop muted playsinline></video></div>
                         <div class="info-platillo">
@@ -124,7 +217,6 @@
                             <div class="precio-pedir"><span class="precio">$210</span><button class="btn-pedir" onclick="agregarAlCarrito('Rojo Tradición', 210)">PEDIR</button></div>
                         </div>
                     </div>
-
                     <div class="card-platillo">
                         <div class="card-media"><img src="foto-sushi-1.jpg" alt="Rollo Kairo"></div>
                         <div class="info-platillo">
@@ -143,28 +235,16 @@
             <button class="cerrar-carrito" onclick="cerrarCarrito()">✖</button>
         </div>
         <div class="carrito-body">
-            
             <div class="datos-cliente" id="seccion-datos" style="display: none;">
-                <h4>Nombre</h4>
-                <input type="text" id="cliente-nombre" placeholder="Tu Nombre completo" required>
-                
-                <h4>Contacto</h4>
-                <input type="tel" id="cliente-telefono" placeholder="Número de teléfono (WhatsApp)" required>
-                
+                <h4>Nombre</h4><input type="text" id="cliente-nombre" placeholder="Tu Nombre completo">
+                <h4>Contacto</h4><input type="tel" id="cliente-telefono" placeholder="Número (WhatsApp)">
                 <h4>Salón y Turno</h4>
                 <div style="display: flex; gap: 10px;">
-                    <input type="text" id="cliente-grupo" placeholder="Grupo (Ej. 3B)" required style="flex: 1;">
-                    <select id="cliente-turno" required style="flex: 1;">
-                        <option value="" disabled selected>Elige turno...</option>
-                        <option value="Matutino">Matutino</option>
-                        <option value="Vespertino">Vespertino</option>
-                    </select>
+                    <input type="text" id="cliente-grupo" placeholder="Grupo (Ej. 3B)" style="flex: 1;">
+                    <select id="cliente-turno" style="flex: 1;"><option value="" disabled selected>Turno...</option><option value="Matutino">Matutino</option><option value="Vespertino">Vespertino</option></select>
                 </div>
-
-                <h4>Matrícula</h4>
-                <input type="text" id="cliente-matricula" placeholder="Número de matrícula" required>
+                <h4>Matrícula</h4><input type="text" id="cliente-matricula" placeholder="Número de matrícula">
             </div>
-
             <div id="lista-carrito"><p style="color: #888; text-align: center; margin-top: 20px;">Tu orden está vacía.</p></div>
         </div>
         <div class="carrito-footer">
@@ -185,52 +265,71 @@
             messagingSenderId: "644038650541",
             appId: "1:644038650541:web:cec55d55fee7bd9429f424"
         };
-
         const app = initializeApp(firebaseConfig);
         const db = getFirestore(app);
 
-        // --- LÓGICA DE LA ANIMACIÓN INICIAL PROFESIONAL ---
+        // --- ANIMACIÓN INICIAL FLUIDA Y APARICIÓN DE BOTONES ---
         window.addEventListener('load', () => {
             const logo = document.getElementById('logo-animado');
             const pantalla = document.getElementById('pantalla-carga');
             const main = document.getElementById('contenido-principal');
+            const botonesHeader = document.getElementById('header-botones');
 
-            // --- CÁLCULOS DE INVERSIÓN DE MOVIMIENTO ---
-            // 1. Centros actuales de pantalla y destino
             const cX = window.innerWidth / 2;
             const cY = window.innerHeight / 2;
             const finalW = 80;
-            const finalCenterX = 20 + finalW / 2; // Left final + mitad ancho
-            const finalCenterY = 37.5; // Top final (centro del header)
-
-            // 2. Escala inicial deseada (de 350px a 80px)
+            const finalCenterX = 20 + finalW / 2; 
+            const finalCenterY = 37.5; 
             const initialScale = 350 / finalW;
-
-            // 3. Traslación necesaria desde ESQUINA -> CENTRO de pantalla
             const transX = cX - finalCenterX;
             const transY = cY - finalCenterY;
 
-            // --- APLICAR ESTADO INICIAL (Centrado y Grande, sin transición aún) ---
-            logo.style.transition = 'none'; // Asegurar que inicie quieto
-            // Mover al centro (compensando el translate CSS previo) y agrandar
+            logo.style.transition = 'none'; 
             logo.style.transform = `translate(${transX}px, ${transY}px) translate(0, -50%) scale(${initialScale})`;
 
-            // --- INICIAR ANIMACIÓN (Después de un respiro centrado) ---
             setTimeout(() => {
-                // Restaurar la transición CSS Quart elegante
                 logo.style.transition = 'transform 1.3s cubic-bezier(0.77, 0, 0.175, 1)';
-                // Quitar transformaciones manuales, el navegador anima suavemente a translate(0,-50%) scale(1)
                 logo.style.transform = '';
 
-                // Desvanecer pantalla de carga y mostrar menú
                 pantalla.style.opacity = "0";
                 main.classList.add('visible');
+                
+                // Hace aparecer los botones suavemente cuando el logo va llegando a la esquina
+                setTimeout(() => { 
+                    botonesHeader.style.opacity = '1'; 
+                }, 800);
+
                 setTimeout(() => { pantalla.style.display = "none"; }, 800);
 
-            }, 1000); // 1 segundo de respiro centrado gigante
+            }, 1000); 
         });
 
-        // LÓGICA DEL CARRITO
+        // --- FUNCIONES DEL MENÚ CORPORATIVO ---
+        window.abrirMenuCorporativo = function() {
+            document.getElementById('menu-corporativo').classList.add('abierto');
+        }
+        window.cerrarMenuCorporativo = function() {
+            document.getElementById('menu-corporativo').classList.remove('abierto');
+        }
+
+        // --- LÓGICA DE ANIMACIÓN AL HACER SCROLL (SCROLL REVEAL) ---
+        function revelarAlScroll() {
+            const revelados = document.querySelectorAll('.reveal');
+            for (let i = 0; i < revelados.length; i++) {
+                const windowHeight = window.innerHeight;
+                const elementTop = revelados[i].getBoundingClientRect().top;
+                const elementVisible = 100; // Píxeles antes de que aparezca
+                if (elementTop < windowHeight - elementVisible) {
+                    revelados[i].classList.add('activo');
+                }
+            }
+        }
+        // Escucha el scroll DENTRO del menú corporativo
+        document.getElementById('menu-corporativo').addEventListener('scroll', revelarAlScroll);
+        // Disparar una vez al abrir por si los primeros elementos ya están en pantalla
+        document.getElementById('menu-corporativo').addEventListener('transitionend', revelarAlScroll);
+
+        // --- LÓGICA DEL CARRITO Y BASE DE DATOS (Igual que antes) ---
         let carrito = [];
         let total = 0;
 
@@ -257,12 +356,7 @@
                 carrito.forEach((item) => {
                     let subtotal = item.precio * item.cantidad;
                     total += subtotal; cantidadTotal += item.cantidad;
-                    lista.innerHTML += `
-                        <div class="item-carrito">
-                            <div><strong>${item.cantidad}x</strong> ${item.nombre}</div>
-                            <div>$${subtotal}</div>
-                        </div>
-                    `;
+                    lista.innerHTML += `<div class="item-carrito"><div><strong>${item.cantidad}x</strong> ${item.nombre}</div><div>$${subtotal}</div></div>`;
                 });
             }
             totalTexto.innerText = `$${total}`;
@@ -272,57 +366,28 @@
         window.abrirCarrito = function() { document.getElementById('carrito-modal').classList.add('abierto'); }
         window.cerrarCarrito = function() { document.getElementById('carrito-modal').classList.remove('abierto'); }
 
-        // ENVIAR A LA BASE DE DATOS ESCOLAR
         window.enviarPedidoBD = async function() {
             if (carrito.length === 0) return;
-            
             const nombre = document.getElementById('cliente-nombre').value;
             const telefono = document.getElementById('cliente-telefono').value;
             const grupo = document.getElementById('cliente-grupo').value;
             const turno = document.getElementById('cliente-turno').value;
             const matricula = document.getElementById('cliente-matricula').value;
 
-            if(!nombre || !telefono || !grupo || !turno || !matricula) {
-                alert("Por favor, llena todos tus datos escolares para el pedido.");
-                return;
-            }
+            if(!nombre || !telefono || !grupo || !turno || !matricula) { alert("Llena todos tus datos escolares."); return; }
 
             const btn = document.getElementById('btn-enviar-pedido');
-            btn.innerText = "Procesando...";
-            btn.disabled = true;
+            btn.innerText = "Procesando..."; btn.disabled = true;
 
             try {
-                const nuevoPedido = {
-                    cliente: nombre,
-                    telefono: telefono,
-                    grupo: grupo,
-                    turno: turno,
-                    matricula: matricula,
-                    platillos: carrito,
-                    totalPagar: total,
-                    estado: "Pendiente", 
-                    fecha: serverTimestamp()
-                };
-
-                await addDoc(collection(db, "pedidos_kairo"), nuevoPedido);
-                
+                await addDoc(collection(db, "pedidos_kairo"), { cliente: nombre, telefono: telefono, grupo: grupo, turno: turno, matricula: matricula, platillos: carrito, totalPagar: total, estado: "Pendiente", fecha: serverTimestamp() });
                 alert(`¡Gracias! Kairo Sushi se pondrá en contacto contigo para cobrarte el pedido.`);
-
-                carrito = [];
-                document.getElementById('cliente-nombre').value = '';
-                document.getElementById('cliente-telefono').value = '';
-                document.getElementById('cliente-grupo').value = '';
-                document.getElementById('cliente-turno').value = '';
-                document.getElementById('cliente-matricula').value = '';
-                actualizarCarrito();
-                cerrarCarrito();
-
+                carrito = []; document.getElementById('cliente-nombre').value = ''; document.getElementById('cliente-telefono').value = ''; document.getElementById('cliente-grupo').value = ''; document.getElementById('cliente-turno').value = ''; document.getElementById('cliente-matricula').value = '';
+                actualizarCarrito(); cerrarCarrito();
             } catch (error) {
-                console.error(error);
-                alert("Hubo un error. Revisa tu conexión a internet.");
+                console.error(error); alert("Hubo un error.");
             } finally {
-                btn.innerText = "Confirmar Pedido 🥢";
-                btn.disabled = false;
+                btn.innerText = "Confirmar Pedido 🥢"; btn.disabled = false;
             }
         }
     </script>
