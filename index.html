@@ -91,18 +91,16 @@
         .seccion-menu { padding: 20px 15px; }
         .seccion-menu h2 { font-size: 18px; margin-bottom: 15px; text-transform: uppercase; font-weight: 800; }
         .grid-menu { display: grid; grid-template-columns: 1fr; gap: 15px; }
-        .card-platillo { background-color: var(--blanco); color: var(--texto-oscuro); border-radius: 12px; overflow: hidden; display: flex; box-shadow: 0 4px 10px rgba(0,0,0,0.6); }
-        .card-media { width: 40%; position: relative; background-color: #000; }
-        .card-media video, .card-media img { width: 100%; height: 100%; object-fit: cover; position: absolute; top: 0; left: 0; }
-        .info-platillo { width: 60%; padding: 12px; display: flex; flex-direction: column; justify-content: space-between; }
-        .info-platillo h3 { font-size: 15px; font-weight: 800; margin-bottom: 4px; text-transform: uppercase; }
-        /* Nuevo estilo para la lista de ingredientes */
-        .ingredientes { font-size: 11px; color: #555; margin-bottom: 10px; line-height: 1.4; }
-        .ingredientes strong { color: var(--rojo-kairo); font-weight: 800; }
         
-        .precio-pedir { display: flex; justify-content: space-between; align-items: center; margin-top: auto; }
-        .precio { font-size: 16px; font-weight: 900; color: var(--texto-oscuro); }
-        .btn-pedir { background-color: var(--rojo-kairo); color: var(--blanco); border: none; padding: 6px 15px; border-radius: 15px; font-size: 12px; font-weight: 800; cursor: pointer; }
+        /* ESTILOS DE LAS TARJETAS REFORZADOS PARA QUE SIEMPRE SE VEAN */
+        .card-platillo { background-color: #FFFFFF; border-radius: 12px; overflow: hidden; display: flex; box-shadow: 0 4px 10px rgba(0,0,0,0.6); min-height: 150px; }
+        .card-media { width: 40%; position: relative; background-color: #000; }
+        .card-media video { width: 100%; height: 100%; object-fit: cover; position: absolute; top: 0; left: 0; }
+        .info-platillo { width: 60%; padding: 15px; display: flex; flex-direction: column; justify-content: space-between; }
+        
+        .precio-pedir { display: flex; justify-content: space-between; align-items: center; margin-top: 10px; }
+        .btn-pedir { background-color: var(--rojo-kairo); color: var(--blanco); border: none; padding: 8px 15px; border-radius: 15px; font-size: 12px; font-weight: 800; cursor: pointer; transition: 0.3s;}
+        .btn-pedir:active { transform: scale(0.9); }
 
         /* --- CARRITO MODAL ESCOLAR --- */
         #carrito-modal { position: fixed; top: 0; right: -100%; width: 100%; max-width: 400px; height: 100vh; background-color: var(--gris-fondo); z-index: 10000; transition: right 0.4s ease; display: flex; flex-direction: column; }
@@ -226,14 +224,17 @@
                 <div class="grid-menu">
                     
                     <div class="card-platillo">
-                        <div class="card-media"><video src="sushi-camaron.mp4" autoplay loop muted playsinline style="object-position: center;"></video></div>
+                        <div class="card-media"><video src="sushi-camaron.mp4" autoplay loop muted playsinline></video></div>
                         <div class="info-platillo">
                             <div>
-                                <h3>Sushi de Camarón</h3>
-                                <p class="ingredientes"><strong>12 rollos.</strong> Camarón, pepino, Philadelphia, aguacate, arroz y alga.</p>
+                                <h3 style="color: #000000; font-weight: 900; font-size: 16px; margin-bottom: 5px; text-transform: uppercase;">Sushi de Camarón</h3>
+                                <p style="color: #444444; font-size: 12px; line-height: 1.4; margin-bottom: 0;">
+                                    <strong style="color: #C6000F;">12 rollos.</strong><br>
+                                    Pepino, Philadelphia, aguacate, arroz, camarón y alga.
+                                </p>
                             </div>
                             <div class="precio-pedir">
-                                <span class="precio">$95</span>
+                                <span style="color: #C6000F; font-size: 18px; font-weight: 900;">$95</span>
                                 <button class="btn-pedir" onclick="agregarAlCarrito('Sushi de Camarón', 95)">PEDIR</button>
                             </div>
                         </div>
@@ -243,11 +244,14 @@
                         <div class="card-media"><video src="sushi-pulpo.mp4" autoplay loop muted playsinline></video></div>
                         <div class="info-platillo">
                             <div>
-                                <h3>Sushi de Pulpo</h3>
-                                <p class="ingredientes"><strong>12 rollos.</strong> Pulpo, aguacate, queso Philadelphia, pepino, arroz y alga.</p>
+                                <h3 style="color: #000000; font-weight: 900; font-size: 16px; margin-bottom: 5px; text-transform: uppercase;">Sushi de Pulpo</h3>
+                                <p style="color: #444444; font-size: 12px; line-height: 1.4; margin-bottom: 0;">
+                                    <strong style="color: #C6000F;">12 rollos.</strong><br>
+                                    Aguacate, queso Philadelphia, pepino, alga, arroz y pulpo.
+                                </p>
                             </div>
                             <div class="precio-pedir">
-                                <span class="precio">$90</span>
+                                <span style="color: #C6000F; font-size: 18px; font-weight: 900;">$90</span>
                                 <button class="btn-pedir" onclick="agregarAlCarrito('Sushi de Pulpo', 90)">PEDIR</button>
                             </div>
                         </div>
@@ -257,11 +261,14 @@
                         <div class="card-media"><video src="sushi-surimi.mp4" autoplay loop muted playsinline></video></div>
                         <div class="info-platillo">
                             <div>
-                                <h3>Sushi de Surimi</h3>
-                                <p class="ingredientes"><strong>12 rollos.</strong> Surimi, pepino, aguacate, Philadelphia, arroz y alga.</p>
+                                <h3 style="color: #000000; font-weight: 900; font-size: 16px; margin-bottom: 5px; text-transform: uppercase;">Sushi de Surimi</h3>
+                                <p style="color: #444444; font-size: 12px; line-height: 1.4; margin-bottom: 0;">
+                                    <strong style="color: #C6000F;">12 rollos.</strong><br>
+                                    Surimi, pepino, aguacate, Philadelphia, arroz y alga.
+                                </p>
                             </div>
                             <div class="precio-pedir">
-                                <span class="precio">$85</span>
+                                <span style="color: #C6000F; font-size: 18px; font-weight: 900;">$85</span>
                                 <button class="btn-pedir" onclick="agregarAlCarrito('Sushi de Surimi', 85)">PEDIR</button>
                             </div>
                         </div>
@@ -271,11 +278,14 @@
                         <div class="card-media"><video src="sushi-flamin.mp4" autoplay loop muted playsinline></video></div>
                         <div class="info-platillo">
                             <div>
-                                <h3>Sushi Flamin Hot</h3>
-                                <p class="ingredientes"><strong>12 rollos.</strong> Camarón, Cheetos Flamin Hot, aguacate, pepino, queso Philadelphia, arroz y alga.</p>
+                                <h3 style="color: #000000; font-weight: 900; font-size: 15px; margin-bottom: 5px; text-transform: uppercase;">Sushi Flamin Hot</h3>
+                                <p style="color: #444444; font-size: 12px; line-height: 1.4; margin-bottom: 0;">
+                                    <strong style="color: #C6000F;">12 rollos.</strong><br>
+                                    Camarón, Cheetos Flamin Hot, aguacate, pepino, queso Philadelphia, alga y arroz.
+                                </p>
                             </div>
                             <div class="precio-pedir">
-                                <span class="precio">$95</span>
+                                <span style="color: #C6000F; font-size: 18px; font-weight: 900;">$95</span>
                                 <button class="btn-pedir" onclick="agregarAlCarrito('Sushi Flamin Hot', 95)">PEDIR</button>
                             </div>
                         </div>
