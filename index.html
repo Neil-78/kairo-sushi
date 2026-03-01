@@ -36,31 +36,44 @@
         #menu-corporativo { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background-color: var(--negro-absoluto); z-index: 10005; overflow-y: auto; overflow-x: hidden; opacity: 0; pointer-events: none; transition: opacity 0.6s ease; }
         #menu-corporativo.abierto { opacity: 1; pointer-events: auto; }
         
-        /* Botón de cerrar ultra-minimalista, visible sobre la imagen o el fondo negro */
         .btn-cerrar-corp { position: fixed; top: 15px; right: 20px; font-size: 45px; color: var(--blanco); background: none; border: none; cursor: pointer; z-index: 10010; font-weight: 300; mix-blend-mode: difference; }
 
         /* EFECTO CORTINA / PARALLAX PARA LA IMAGEN DE INICIO */
         .corp-hero-parallax {
-            position: sticky; /* Se queda pegado mientras bajas */
+            position: sticky; 
             top: 0; left: 0; width: 100%; height: 100vh;
-            display: flex; justify-content: center; align-items: center;
-            z-index: 0; /* Por debajo del texto de contenido */
+            display: flex; justify-content: center; align-items: flex-start; /* Alineado arriba para el texto */
+            z-index: 0; 
             background-color: var(--negro-absoluto);
         }
         
-        /* La nueva imagen vibrante de inicio */
         .corp-hero-parallax img { 
             position: absolute; top: 0; left: 0; 
             width: 100%; height: 100%; 
-            object-fit: cover; /* Asegura que cubra la pantalla en celulares */
-            filter: brightness(0.9); /* Solo un poco de oscurecimiento para cuando suba el texto */
+            object-fit: cover; 
+            filter: brightness(0.7); /* Oscurece la imagen para que el texto blanco resalte */
             z-index: 0; 
+        }
+
+        /* TEXTO "BIENVENIDOS A KAIRO SUSHI" ESTILO LLOUD */
+        .texto-bienvenida-intro {
+            position: relative;
+            z-index: 1;
+            margin-top: 15vh; /* Ajuste para que quede en la parte superior como en el video */
+            width: 100%;
+            text-align: center;
+            font-size: 32px;
+            font-weight: 900;
+            color: var(--blanco);
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            padding: 0 20px;
         }
 
         /* CONTENEDOR QUE CUBRE AL INICIO VIBRANTE */
         .corp-content-wrapper {
-            position: relative; z-index: 2; /* Pasa por encima de la imagen de inicio */
-            background-color: var(--negro-absoluto); /* Fondo negro sólido para "esconder" la intro */
+            position: relative; z-index: 2; 
+            background-color: var(--negro-absoluto); 
             padding-bottom: 50px;
         }
 
@@ -83,6 +96,27 @@
         .directorio-item h4 { font-size: 22px; font-weight: 800; color: var(--blanco); margin-bottom: 5px; text-transform: uppercase; }
         .directorio-item span { color: #888; font-size: 12px; text-transform: uppercase; font-weight: 600; display: block; margin-bottom: 10px; letter-spacing: 2px; }
         .directorio-item p { margin-bottom: 0; font-size: 15px; color: #aaa; }
+
+        /* DISEÑO ESPECIAL PARA P&K COMPANY + EDIFICIO */
+        .pk-container {
+            display: flex;
+            flex-direction: column;
+            gap: 30px;
+            align-items: center;
+            text-align: left;
+        }
+        .pk-edificio-img {
+            width: 100%;
+            max-height: 450px;
+            object-fit: cover;
+            border-radius: 12px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.8);
+        }
+        @media (min-width: 768px) {
+            .pk-container { flex-direction: row; align-items: stretch; }
+            .pk-edificio-img { width: 45%; height: auto; }
+            .pk-info { width: 55%; padding-left: 20px; display: flex; flex-direction: column; justify-content: center; }
+        }
 
         .frase-institucional { margin-top: 60px; padding: 40px 20px; background: #0a0a0a; text-align: center; border-radius: 15px; border: 1px solid #222; }
         .frase-institucional p { color: var(--blanco); font-style: italic; font-weight: 400; font-size: 18px; margin: 0; line-height: 1.6; }
@@ -135,15 +169,23 @@
         <button class="btn-cerrar-corp" onclick="cerrarMenuCorporativo()">×</button>
         
         <div class="corp-hero-parallax">
-            <img src="intro.jpg" alt="Bienvenidos a Kairo Sushi">
+            <img src="intro.jpg" alt="Intro Kairo Sushi">
+            <div class="texto-bienvenida-intro reveal">
+                Bienvenidos a<br>Kairo Sushi
+            </div>
         </div>
 
         <div class="corp-content-wrapper">
             
-            <div class="corp-section reveal">
-                <h2><span>P&K</span> Company</h2>
-                <p>El grupo corporativo del que forma parte la cadena <strong>Kairo Sushi</strong>, junto con otras marcas estratégicas como Wolf Coffee y Vita. Este grupo se enfoca en el desarrollo de conceptos innovadores y escalables dentro del sector gastronómico y de consumo, destacando por su identidad sólida, calidad y enfoque en la experiencia del cliente.</p>
-                <p>Dirigido por su CEO, <strong>Karim Ponce</strong>, responsable de la creación, planeación estratégica y ejecución de cada marca, asegurando que todas operen bajo estándares de excelencia, innovación constante y visión de expansión internacional.</p>
+            <div class="corp-section reveal" style="padding-top: 50px;">
+                <div class="pk-container">
+                    <img src="edificio.jpg" alt="Edificio P&K Company" class="pk-edificio-img">
+                    <div class="pk-info">
+                        <h2 style="margin-bottom: 15px; text-align: left;"><span>P&K</span> Company</h2>
+                        <p>El grupo corporativo del que forma parte la cadena <strong>Kairo Sushi</strong>, junto con otras marcas estratégicas como Wolf Coffee y Vita. Este grupo se enfoca en el desarrollo de conceptos innovadores y escalables dentro del sector gastronómico y de consumo, destacando por su identidad sólida, calidad y enfoque en la experiencia del cliente.</p>
+                        <p>Dirigido por su CEO, <strong>Karim Ponce</strong>, responsable de la creación, planeación estratégica y ejecución de cada marca, asegurando que todas operen bajo estándares de excelencia, innovación constante y visión de expansión internacional.</p>
+                    </div>
+                </div>
             </div>
 
             <div class="corp-section reveal">
@@ -374,7 +416,6 @@
                 }
             }
         }
-        // Escucha el scroll DENTRO del menú corporativo
         document.getElementById('menu-corporativo').addEventListener('scroll', revelarAlScroll);
 
         // LÓGICA DEL CARRITO
