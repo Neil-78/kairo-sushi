@@ -153,7 +153,9 @@
 
                 <div class="directorio-item"><span>Gerente General y Planeación</span><h4>Naomi Ríos</h4><p>Responsable de coordinar operaciones globales, optimizar procesos internos y garantizar la correcta ejecución de los planes de desarrollo empresarial.</p></div>
                 <div class="directorio-item"><span>Gerente General de Finanzas</span><h4>Dalet Gallegos</h4><p>Supervisa la administración de capital, proyecciones económicas, control presupuestal y estrategias de inversión.</p></div>
-                <div class="directorio-item"><span>Gerente General de Ventas</span><h4>Brando Luna</h4><p>Dirige la expansión comercial, alianzas estratégicas y posicionamiento de mercado de cada marca.</p></div>
+                
+                <div class="directorio-item"><span>Gerente General de Ventas</span><h4>Brandon Luna</h4><p>Dirige la expansión comercial, alianzas estratégicas y posicionamiento de mercado de cada marca.</p></div>
+                
                 <div class="directorio-item"><span>Gerente General de Publicidad</span><h4>Sofía Hernández</h4><p>Encargada de la imagen corporativa, campañas creativas y estrategias de comunicación para fortalecer la presencia de marca.</p></div>
                 <div class="directorio-item"><span>Gerente General de Marketing (TNK)</span><h4>Luna Navarrete</h4><p>Lidera la identidad estratégica y posicionamiento.</p></div>
             </div>
@@ -398,9 +400,17 @@
             actualizarCarrito();
         }
 
-        // NUEVA FUNCIÓN: ELIMINAR DEL CARRITO
+        // LÓGICA MEJORADA: ELIMINAR 1 POR 1
         window.eliminarDelCarrito = function(nombre) {
-            carrito = carrito.filter(item => item.nombre !== nombre);
+            let itemExistente = carrito.find(item => item.nombre === nombre);
+            if (itemExistente) {
+                if (itemExistente.cantidad > 1) {
+                    itemExistente.cantidad--; // Si hay más de 1, solo resta 1
+                } else {
+                    // Si solo queda 1, lo elimina por completo de la lista
+                    carrito = carrito.filter(item => item.nombre !== nombre);
+                }
+            }
             actualizarCarrito();
         }
 
@@ -419,12 +429,13 @@
                 carrito.forEach((item) => {
                     let subtotal = item.precio * item.cantidad;
                     total += subtotal; cantidadTotal += item.cantidad;
-                    // Aquí se insertó el botón de "Quitar" debajo del nombre del sushi
+                    
+                    // Botón mejorado para decir "Quitar uno"
                     lista.innerHTML += `
                         <div class="item-carrito">
                             <div>
                                 <strong>${item.cantidad}x</strong> ${item.nombre} <br>
-                                <button onclick="eliminarDelCarrito('${item.nombre}')" style="background: none; border: none; color: #ff4444; font-size: 11px; cursor: pointer; text-decoration: underline; margin-top: 4px; padding: 0;">🗑️ Quitar rollo</button>
+                                <button onclick="eliminarDelCarrito('${item.nombre}')" style="background: none; border: none; color: #ff4444; font-size: 11px; cursor: pointer; text-decoration: underline; margin-top: 4px; padding: 0;">➖ Quitar 1 rollo</button>
                             </div>
                             <div style="font-weight: 800;">$${subtotal}</div>
                         </div>`;
