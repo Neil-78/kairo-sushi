@@ -92,7 +92,6 @@
         .seccion-menu h2 { font-size: 18px; margin-bottom: 15px; text-transform: uppercase; font-weight: 800; }
         .grid-menu { display: grid; grid-template-columns: 1fr; gap: 15px; }
         
-        /* ESTILOS DE LAS TARJETAS REFORZADOS PARA QUE SIEMPRE SE VEAN */
         .card-platillo { background-color: #FFFFFF; border-radius: 12px; overflow: hidden; display: flex; box-shadow: 0 4px 10px rgba(0,0,0,0.6); min-height: 150px; }
         .card-media { width: 40%; position: relative; background-color: #000; }
         .card-media video { width: 100%; height: 100%; object-fit: cover; position: absolute; top: 0; left: 0; }
@@ -108,7 +107,7 @@
         .carrito-header { padding: 20px; border-bottom: 1px solid #333; display: flex; justify-content: space-between; align-items: center; }
         .cerrar-carrito { background: none; border: none; color: white; font-size: 24px; cursor: pointer; }
         .carrito-body { padding: 20px; flex-grow: 1; overflow-y: auto; }
-        .item-carrito { display: flex; justify-content: space-between; margin-bottom: 15px; border-bottom: 1px dashed #444; padding-bottom: 10px; }
+        .item-carrito { display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; border-bottom: 1px dashed #444; padding-bottom: 10px; }
         .datos-cliente { display: flex; flex-direction: column; gap: 10px; margin-bottom: 20px; }
         .datos-cliente h4 { color: var(--rojo-kairo); font-size: 13px; margin-top: 10px; margin-bottom: -5px; text-transform: uppercase;}
         .datos-cliente input, .datos-cliente select { width: 100%; padding: 12px; border-radius: 8px; border: 1px solid #444; background-color: #222; color: white; font-size: 14px; }
@@ -138,13 +137,20 @@
                     <div class="pk-info">
                         <h2 style="margin-bottom: 15px; text-align: left;"><span>P&K</span> Company</h2>
                         <p>El grupo corporativo del que forma parte la cadena <strong>Kairo Sushi</strong>, junto con otras marcas estratégicas como Wolf Coffee y Vita. Este grupo se enfoca en el desarrollo de conceptos innovadores y escalables dentro del sector gastronómico y de consumo, destacando por su identidad sólida, calidad y enfoque en la experiencia del cliente.</p>
-                        <p>Dirigido por su CEO, <strong>Karim Ponce</strong>, responsable de la creación, planeación estratégica y ejecución de cada marca, asegurando que todas operen bajo estándares de excelencia, innovación constante y visión de expansión internacional.</p>
+                        <p>Dirigido por su CEO, <strong style="color: var(--rojo-kairo); font-size: 1.15em;">Karim Ponce</strong>, responsable de la creación, planeación estratégica y ejecución de cada marca, asegurando que todas operen bajo estándares de excelencia, innovación constante y visión de expansión internacional.</p>
                     </div>
                 </div>
             </div>
 
             <div class="corp-section reveal">
                 <h2 style="margin-bottom: 50px;">Directorio Estratégico</h2>
+                
+                <div class="directorio-item" style="border-left: 4px solid var(--verde-wa);">
+                    <span style="color: var(--verde-wa);">CEO</span>
+                    <h4>Karim Ponce</h4>
+                    <p>Coordina y lidera todo a nivel internacional y se encarga de trabajar con cada uno de los gerentes.</p>
+                </div>
+
                 <div class="directorio-item"><span>Gerente General y Planeación</span><h4>Naomi Ríos</h4><p>Responsable de coordinar operaciones globales, optimizar procesos internos y garantizar la correcta ejecución de los planes de desarrollo empresarial.</p></div>
                 <div class="directorio-item"><span>Gerente General de Finanzas</span><h4>Dalet Gallegos</h4><p>Supervisa la administración de capital, proyecciones económicas, control presupuestal y estrategias de inversión.</p></div>
                 <div class="directorio-item"><span>Gerente General de Ventas</span><h4>Brando Luna</h4><p>Dirige la expansión comercial, alianzas estratégicas y posicionamiento de mercado de cada marca.</p></div>
@@ -233,10 +239,7 @@
                                     Pepino, Philadelphia, aguacate, arroz, camarón y alga.
                                 </p>
                             </div>
-                            <div class="precio-pedir">
-                                <span style="color: #C6000F; font-size: 18px; font-weight: 900;">$95</span>
-                                <button class="btn-pedir" onclick="agregarAlCarrito('Sushi de Camarón', 95)">PEDIR</button>
-                            </div>
+                            <div class="precio-pedir"><span style="color: #C6000F; font-size: 18px; font-weight: 900;">$95</span><button class="btn-pedir" onclick="agregarAlCarrito('Sushi de Camarón', 95)">PEDIR</button></div>
                         </div>
                     </div>
 
@@ -250,10 +253,7 @@
                                     Aguacate, queso Philadelphia, pepino, alga, arroz y pulpo.
                                 </p>
                             </div>
-                            <div class="precio-pedir">
-                                <span style="color: #C6000F; font-size: 18px; font-weight: 900;">$90</span>
-                                <button class="btn-pedir" onclick="agregarAlCarrito('Sushi de Pulpo', 90)">PEDIR</button>
-                            </div>
+                            <div class="precio-pedir"><span style="color: #C6000F; font-size: 18px; font-weight: 900;">$90</span><button class="btn-pedir" onclick="agregarAlCarrito('Sushi de Pulpo', 90)">PEDIR</button></div>
                         </div>
                     </div>
 
@@ -267,10 +267,7 @@
                                     Surimi, pepino, aguacate, Philadelphia, arroz y alga.
                                 </p>
                             </div>
-                            <div class="precio-pedir">
-                                <span style="color: #C6000F; font-size: 18px; font-weight: 900;">$85</span>
-                                <button class="btn-pedir" onclick="agregarAlCarrito('Sushi de Surimi', 85)">PEDIR</button>
-                            </div>
+                            <div class="precio-pedir"><span style="color: #C6000F; font-size: 18px; font-weight: 900;">$85</span><button class="btn-pedir" onclick="agregarAlCarrito('Sushi de Surimi', 85)">PEDIR</button></div>
                         </div>
                     </div>
 
@@ -284,10 +281,21 @@
                                     Camarón, Cheetos Flamin Hot, aguacate, pepino, queso Philadelphia, alga y arroz.
                                 </p>
                             </div>
-                            <div class="precio-pedir">
-                                <span style="color: #C6000F; font-size: 18px; font-weight: 900;">$95</span>
-                                <button class="btn-pedir" onclick="agregarAlCarrito('Sushi Flamin Hot', 95)">PEDIR</button>
+                            <div class="precio-pedir"><span style="color: #C6000F; font-size: 18px; font-weight: 900;">$95</span><button class="btn-pedir" onclick="agregarAlCarrito('Sushi Flamin Hot', 95)">PEDIR</button></div>
+                        </div>
+                    </div>
+
+                    <div class="card-platillo">
+                        <div class="card-media"><video src="sushi-res.mp4" autoplay loop muted playsinline></video></div>
+                        <div class="info-platillo">
+                            <div>
+                                <h3 style="color: #000000; font-weight: 900; font-size: 15px; margin-bottom: 5px; text-transform: uppercase;">Sushi de Res</h3>
+                                <p style="color: #444444; font-size: 12px; line-height: 1.4; margin-bottom: 0;">
+                                    <strong style="color: #C6000F;">12 rollos.</strong><br>
+                                    Carne de res, aguacate, pepino, queso Philadelphia, arroz y alga.
+                                </p>
                             </div>
+                            <div class="precio-pedir"><span style="color: #C6000F; font-size: 18px; font-weight: 900;">$110</span><button class="btn-pedir" onclick="agregarAlCarrito('Sushi de Res', 110)">PEDIR</button></div>
                         </div>
                     </div>
 
@@ -361,7 +369,7 @@
             }, 1000); 
         });
 
-        // FUNCIONES DEL MENÚ CORPORATIVO (SCROLL REVEAL)
+        // FUNCIONES CORPORATIVO
         window.abrirMenuCorporativo = function() {
             document.getElementById('menu-corporativo').classList.add('abierto');
             setTimeout(revelarAlScroll, 100); 
@@ -376,9 +384,7 @@
                 const windowHeight = window.innerHeight;
                 const elementTop = revelados[i].getBoundingClientRect().top;
                 const elementVisible = 80; 
-                if (elementTop < windowHeight - elementVisible) {
-                    revelados[i].classList.add('activo');
-                }
+                if (elementTop < windowHeight - elementVisible) { revelados[i].classList.add('activo'); }
             }
         }
         document.getElementById('menu-corporativo').addEventListener('scroll', revelarAlScroll);
@@ -389,6 +395,12 @@
         window.agregarAlCarrito = function(nombre, precio) {
             let itemExistente = carrito.find(item => item.nombre === nombre);
             if (itemExistente) { itemExistente.cantidad++; } else { carrito.push({ nombre: nombre, precio: precio, cantidad: 1 }); }
+            actualizarCarrito();
+        }
+
+        // NUEVA FUNCIÓN: ELIMINAR DEL CARRITO
+        window.eliminarDelCarrito = function(nombre) {
+            carrito = carrito.filter(item => item.nombre !== nombre);
             actualizarCarrito();
         }
 
@@ -407,7 +419,15 @@
                 carrito.forEach((item) => {
                     let subtotal = item.precio * item.cantidad;
                     total += subtotal; cantidadTotal += item.cantidad;
-                    lista.innerHTML += `<div class="item-carrito"><div><strong>${item.cantidad}x</strong> ${item.nombre}</div><div>$${subtotal}</div></div>`;
+                    // Aquí se insertó el botón de "Quitar" debajo del nombre del sushi
+                    lista.innerHTML += `
+                        <div class="item-carrito">
+                            <div>
+                                <strong>${item.cantidad}x</strong> ${item.nombre} <br>
+                                <button onclick="eliminarDelCarrito('${item.nombre}')" style="background: none; border: none; color: #ff4444; font-size: 11px; cursor: pointer; text-decoration: underline; margin-top: 4px; padding: 0;">🗑️ Quitar rollo</button>
+                            </div>
+                            <div style="font-weight: 800;">$${subtotal}</div>
+                        </div>`;
                 });
             }
             totalTexto.innerText = `$${total}`; contadorHeader.innerText = cantidadTotal;
